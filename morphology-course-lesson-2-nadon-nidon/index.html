@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>קורס תורת הצורות - נדון ונידון</title>
+<meta name="description" content="קורס תורת הצורות: איך שינוי בתפקיד התחבירי של הבינוני שינה את צורתו בלשון חז״ל.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@600;700;800&family=Frank+Ruhl+Libre:wght@500;700&family=Heebo:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: a one-screen deck. Large title left to the system, one diagram per slide,
+   a translucent control bar at the bottom. Two hues carry the whole argument:
+   indigo = noun-like (נָדוֹן), orange = verb-like (נִידּוֹן). */
+:root {
+  --bg: #f5f5f7;
+  --surface: #ffffff;
+  --ink: #1d1d1f;
+  --muted: #5e6672;
+  --line: #d9dde3;
+  --noun: #3949ab;
+  --noun-soft: #e8ebfa;
+  --verb: #b93a0b;
+  --verb-soft: #fbe9df;
+  --shadow: 0 1px 2px rgba(20, 28, 40, .06), 0 8px 28px rgba(20, 28, 40, .07);
+  /* Almoni Tzar is a licensed font: used when installed on the device, Assistant otherwise. */
+  --f-head: "Almoni Tzar", "Almoni Tzar DL", "Almoni Tzar AAA", "Assistant", "Heebo", system-ui, sans-serif;
+  --f-body: "Heebo", -apple-system, "SF Hebrew", system-ui, sans-serif;
+  --f-ex: "Frank Ruhl Libre", "Noto Serif Hebrew", "David", serif;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #000000;
+    --surface: #1c1c1e;
+    --ink: #f5f5f7;
+    --muted: #a1a8b3;
+    --line: #34373d;
+    --noun: #7f8ce8;
+    --noun-soft: #232a52;
+    --verb: #df703e;
+    --verb-soft: #43261a;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .5);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #000000;
+  --surface: #1c1c1e;
+  --ink: #f5f5f7;
+  --muted: #a1a8b3;
+  --line: #34373d;
+  --noun: #7f8ce8;
+  --noun-soft: #232a52;
+  --verb: #df703e;
+  --verb-soft: #43261a;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .5);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 1.0625rem/1.7 var(--f-body); /* room for niqqud above and below the line */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--noun); outline-offset: 3px; border-radius: 8px; }
+
+.deck { height: 100%; display: grid; grid-template-rows: minmax(0, 1fr) auto; }
+.stage { position: relative; overflow: hidden; }
+.slide {
+  position: absolute; inset: 0; display: none; overflow-y: auto;
+  padding-block: clamp(20px, 5vh, 56px);
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+.slide.active { display: block; }
+.wrap { max-width: 62rem; margin-inline: auto; display: grid; gap: clamp(14px, 2.4vh, 24px); }
+
+h1, h2 {
+  margin: 0; font-family: var(--f-head); font-weight: 800;
+  line-height: 1.04; text-wrap: balance;
+}
+/* tighter tracking as the type grows; running text stays at normal */
+h1 { font-size: clamp(2.6rem, 8vw, 4.8rem); letter-spacing: -.02em; }
+h2 { font-size: clamp(2rem, 5.6vw, 3.4rem); letter-spacing: -.015em; }
+.lead { margin: 0; max-width: 40rem; font-size: clamp(1.05rem, 2.2vw, 1.3rem); color: var(--muted); text-wrap: pretty; }
+.lead strong, .note strong { color: var(--ink); font-weight: 600; }
+.note { margin: 0; max-width: 44rem; font-size: .95rem; color: var(--muted); text-wrap: pretty; }
+.ex { font-family: var(--f-ex); font-weight: 500; font-size: 1.12em; color: var(--ink); white-space: nowrap; }
+
+/* cards */
+.card { background: var(--surface); border-radius: 22px; box-shadow: var(--shadow); padding: clamp(16px, 3vw, 28px); }
+figure { margin: 0; display: grid; gap: 12px; }
+figcaption { font-size: .98rem; color: var(--muted); max-width: 46rem; text-wrap: pretty; }
+.fig { overflow-x: auto; }
+.fig svg { display: block; width: 100%; min-width: 600px; height: auto; direction: rtl; }
+
+/* legend */
+.legend { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 0; padding: 0; list-style: none; font-size: .92rem; color: var(--muted); }
+.legend li { display: inline-flex; align-items: center; gap: 8px; }
+.legend i { width: 12px; height: 12px; border-radius: 4px; border: 2px solid; display: inline-block; }
+.legend .n i { background: var(--noun-soft); border-color: var(--noun); }
+.legend .v i { background: var(--verb-soft); border-color: var(--verb); }
+
+/* title slide */
+.hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(20px, 5vw, 56px); align-items: center; min-height: min(60vh, 520px); }
+.rule { display: inline-block; margin-top: 4px; padding: 10px 18px; border-radius: 14px; background: var(--surface); box-shadow: var(--shadow); font-family: var(--f-head); font-weight: 700; font-size: 1.35rem; }
+.pair { display: grid; gap: 14px; }
+.pair .row { display: flex; align-items: center; gap: 16px; padding: 16px 20px; border-radius: 20px; border: 2px solid; }
+.pair .row.n { background: var(--noun-soft); border-color: var(--noun); }
+.pair .row.v { background: var(--verb-soft); border-color: var(--verb); }
+.pair .form { font-family: var(--f-ex); font-weight: 700; font-size: clamp(2.6rem, 8vw, 4.6rem); line-height: 1.2; }
+.pair .tag { margin-inline-start: auto; font-size: .85rem; font-weight: 600; padding: 4px 12px; border-radius: 99px; background: var(--surface); }
+.pair .join { justify-self: center; width: 28px; height: 44px; }
+
+/* steps */
+.steps { display: flex; align-items: stretch; gap: 0; }
+.step { flex: 1 1 0; min-width: 0; display: grid; gap: 10px; align-content: start; }
+.step h3 { margin: 0; font-family: var(--f-head); font-weight: 800; font-size: 1.5rem; line-height: 1.1; }
+.step p { margin: 0; color: var(--muted); font-size: 1rem; }
+.chip { justify-self: start; padding: 6px 16px; border-radius: 99px; border: 2px solid; font-family: var(--f-ex); font-weight: 700; font-size: 1.5rem; line-height: 1.35; }
+.chip.n { background: var(--noun-soft); border-color: var(--noun); }
+.chip.v { background: var(--verb-soft); border-color: var(--verb); }
+.chip.mid { background: transparent; border-color: var(--line); font-family: var(--f-body); font-size: 1rem; font-weight: 600; }
+.link { flex: 0 0 96px; display: grid; place-items: center; align-content: center; gap: 6px; padding-inline: 6px; text-align: center; font-size: .86rem; font-weight: 600; color: var(--muted); }
+.link svg { width: 52px; height: 18px; color: var(--ink); }
+
+/* mix-ups */
+.cards3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.cards3 .card { display: grid; gap: 8px; align-content: start; }
+.cards3 h3 { margin: 0; font-family: var(--f-head); font-weight: 800; font-size: 1.35rem; line-height: 1.15; }
+.cards3 p { margin: 0; color: var(--muted); font-size: .98rem; }
+.bad { color: var(--verb); font-weight: 600; font-size: .85rem; }
+.final { font-family: var(--f-head); font-weight: 800; font-size: clamp(1.5rem, 4vw, 2.2rem); line-height: 1.15; }
+
+/* control bar */
+.bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding-block: 10px;
+  padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-top: 1px solid var(--line);
+}
+.nav { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; min-width: 44px; padding: 0 16px; border: 0; border-radius: 99px; background: var(--ink); color: var(--bg); font-weight: 600; cursor: pointer; transition: transform .16s var(--ease-out), opacity .2s ease; }
+.nav:active { transform: scale(.96); transition-duration: .1s; } /* feedback on press, not on release */
+.nav[disabled] { opacity: .28; cursor: default; }
+.nav svg { width: 18px; height: 18px; }
+.dots { display: flex; align-items: center; gap: 4px; }
+.dot { width: 28px; height: 44px; display: grid; place-items: center; background: none; border: 0; cursor: pointer; padding: 0; }
+.dot::before { content: ""; width: 8px; height: 8px; border-radius: 99px; background: var(--line); transition: width .25s var(--ease-out), background-color .2s ease; }
+.dot[aria-current="true"]::before { width: 22px; border-radius: 99px; background: var(--ink); }
+.count { font-size: .85rem; color: var(--muted); font-variant-numeric: tabular-nums; min-width: 3.2em; text-align: center; direction: ltr; unicode-bidi: isolate; }
+
+/* svg parts */
+svg text { font-family: var(--f-body); fill: var(--ink); }
+.t-form { font-family: var(--f-ex); font-weight: 700; font-size: 30px; }
+.t-big { font-family: var(--f-ex); font-weight: 700; font-size: 58px; }
+.t-hd { font: 800 19px var(--f-head); }
+.t-lbl { font: 700 17px var(--f-head); }
+.t-cap { font-size: 13.5px; font-weight: 500; fill: var(--muted); }
+.t-sub { font-size: 13.5px; font-weight: 500; fill: var(--muted); }
+.cell { stroke-width: 2; }
+.cell.n, .box.n { fill: var(--noun-soft); stroke: var(--noun); }
+.cell.v, .box.v { fill: var(--verb-soft); stroke: var(--verb); }
+.cell.ghost { fill: none; stroke: var(--muted); stroke-dasharray: 5 5; stroke-width: 1.6; }
+.cell.hot { stroke-width: 3.5; }
+.box { stroke-width: 2; }
+.guide { stroke: var(--line); stroke-width: 1.5; fill: none; }
+.flow { stroke: var(--ink); stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.flow.v { stroke: var(--verb); stroke-width: 3; }
+.flow.n { stroke: var(--noun); stroke-width: 3; }
+.flow.dash { stroke: var(--muted); stroke-width: 2; stroke-dasharray: 5 5; }
+.head { fill: var(--ink); }
+.head.v { fill: var(--verb); }
+.head.n { fill: var(--noun); }
+.head.m { fill: var(--muted); }
+.node { fill: var(--surface); stroke: var(--ink); stroke-width: 2; }
+.u-n { fill: var(--noun); }
+.u-v { fill: var(--verb); }
+
+/* motion: every animation starts from a hidden/offset state and ends in the final layout */
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } }
+@keyframes fade { from { opacity: 0; } }
+@keyframes draw { from { stroke-dashoffset: 1; } }
+@keyframes slideIn { from { opacity: 0; transform: translateX(-26px); } }
+@keyframes mark { 0% { fill: var(--ink); } 100% { } }
+@keyframes enter { from { opacity: 0; } }
+.slide.active { animation: enter .2s ease-out both; }
+.slide.active .rise { animation: rise .7s var(--ease-out) both; animation-delay: var(--d, 0s); }
+.slide.active .fade { animation: fade .6s ease both; animation-delay: var(--d, 0s); }
+.slide.active .slidein { animation: slideIn .7s var(--ease-out) both; animation-delay: var(--d, 0s); }
+.draw { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.slide.active .draw { animation: draw .9s ease-in-out both; animation-delay: var(--d, 0s); }
+.slide.active .mark { animation: mark 1.4s ease both; animation-delay: var(--d, 0s); }
+@media (prefers-reduced-motion: reduce) {
+  .slide.active, .slide.active .rise, .slide.active .fade, .slide.active .slidein, .slide.active .draw, .slide.active .mark { animation: none; }
+  .nav, .dot::before { transition: none; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .bar { background: var(--surface); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+@media (prefers-contrast: more) {
+  :root:not([data-theme]) { --muted: var(--ink); --line: var(--ink); }
+  .card, .rule { box-shadow: none; outline: 1px solid var(--ink); }
+}
+
+@media (max-width: 760px) {
+  .hero { grid-template-columns: 1fr; min-height: 0; }
+  .steps { flex-direction: column; }
+  .link { flex: 0 0 auto; padding-block: 10px; }
+  .link svg { transform: rotate(-90deg); width: 44px; }
+  .cards3 { grid-template-columns: 1fr; }
+  .nav span { display: none; }
+  .nav { padding: 0 12px; }
+  .count { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="deck">
+<main class="stage" id="stage">
+
+<!-- 1 · rule -->
+<section class="slide active" id="s1" aria-label="שקף 1">
+  <div class="wrap">
+    <div class="hero">
+      <div style="display:grid;gap:18px">
+        <h1 class="rise">כשהתפקיד משתנה, הצורה משתנה</h1>
+        <p class="lead rise" style="--d:.15s">במקרא הבינוני נראה כמו שם: <span class="ex">נָדוֹן</span>. בלשון חז״ל הוא משמש גם כפועל, ולכן הוא נראה כמו פועל: <span class="ex">נִידּוֹן</span>.</p>
+        <p class="rise" style="--d:.3s;margin:0"><span class="rule">הצורה הולכת אחרי התפקיד.</span></p>
+      </div>
+      <div class="pair" aria-label="נָדוֹן הופך לנִידּוֹן">
+        <div class="row n rise" style="--d:.35s"><span class="form">נָדוֹן</span><span class="tag">צורת שם</span></div>
+        <svg class="join fade" style="--d:.8s" viewBox="0 0 28 44" aria-hidden="true"><path d="M14 2 V36 M5 28 L14 38 L23 28" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="row v rise" style="--d:1s"><span class="form">נִידּוֹן</span><span class="tag">צורת פועל</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · table -->
+<section class="slide" id="s2" aria-label="שקף 2">
+  <div class="wrap">
+    <h2 class="rise">מקרא מול חז״ל: איזה תא השתנה</h2>
+    <p class="lead rise" style="--d:.1s">שלושה תפקידים, שתי תקופות. רק תא אחד קיבל צורה חדשה.</p>
+    <figure class="card rise" style="--d:.2s">
+      <div class="fig">
+        <svg viewBox="-40 0 760 372" role="img" aria-label="טבלה: בלשון המקרא עבר הוא נִדּוֹן ובינוני הוא נָדוֹן. בלשון חז״ל בינוני בתפקיד פועל מקבל את צורת העבר נִידּוֹן, ובתפקיד שם נשאר נָדוֹן.">
+          <g class="fade" style="--d:.2s">
+            <text class="t-hd" x="160" y="30" text-anchor="middle">לשון חז״ל</text>
+            <text class="t-hd" x="400" y="30" text-anchor="middle">לשון המקרא</text>
+            <line class="guide" x1="60" x2="500" y1="46" y2="46"/>
+          </g>
+          <!-- row labels -->
+          <g class="fade" style="--d:.3s">
+            <text class="t-lbl" x="610" y="98" text-anchor="middle">עבר</text>
+            <text class="t-sub" x="610" y="120" text-anchor="middle">פועל מלא</text>
+            <text class="t-lbl" x="610" y="198" text-anchor="middle">בינוני כשם</text>
+            <text class="t-sub" x="610" y="220" text-anchor="middle">שם או תואר</text>
+            <text class="t-lbl" x="610" y="298" text-anchor="middle">בינוני כפועל</text>
+            <text class="t-sub" x="610" y="320" text-anchor="middle">הווה ועתיד</text>
+          </g>
+          <!-- row 1 · past -->
+          <g class="rise" style="--d:.4s">
+            <rect class="cell v" x="300" y="64" width="200" height="72" rx="16"/>
+            <text class="t-form" x="400" y="98" text-anchor="middle">נִדּוֹן</text>
+            <text class="t-cap" x="400" y="124" text-anchor="middle">פועל</text>
+          </g>
+          <g class="rise" style="--d:.5s">
+            <rect class="cell v" x="60" y="64" width="200" height="72" rx="16"/>
+            <text class="t-form" x="160" y="98" text-anchor="middle">נִידּוֹן</text>
+            <text class="t-cap" x="160" y="124" text-anchor="middle">אותה צורה, בלי שינוי</text>
+          </g>
+          <!-- row 2 · participle as noun -->
+          <g class="rise" style="--d:.6s">
+            <rect class="cell n" x="300" y="164" width="200" height="72" rx="16"/>
+            <text class="t-form" x="400" y="198" text-anchor="middle">נָדוֹן</text>
+            <text class="t-cap" x="400" y="224" text-anchor="middle">בינוני = שם</text>
+          </g>
+          <g class="rise" style="--d:.7s">
+            <rect class="cell n" x="60" y="164" width="200" height="72" rx="16"/>
+            <text class="t-form" x="160" y="198" text-anchor="middle">נָדוֹן</text>
+            <text class="t-cap" x="160" y="224" text-anchor="middle">נשאר שם: ״הנדון״</text>
+          </g>
+          <!-- row 3 · participle as verb -->
+          <g class="rise" style="--d:.8s">
+            <rect class="cell ghost" x="300" y="264" width="200" height="72" rx="16"/>
+            <text class="t-form" x="400" y="298" text-anchor="middle">נָדוֹן</text>
+            <text class="t-cap" x="400" y="324" text-anchor="middle">אין צורת פועל משלו</text>
+          </g>
+          <g class="rise" style="--d:2.1s">
+            <rect class="cell v hot" x="60" y="264" width="200" height="72" rx="16"/>
+            <text class="t-form" x="160" y="298" text-anchor="middle">נִידּוֹן</text>
+            <text class="t-cap" x="160" y="324" text-anchor="middle">שאול מצורת העבר</text>
+          </g>
+          <!-- analogy arrow -->
+          <path class="flow v draw" pathLength="1" style="--d:1.2s" d="M 60 100 C -28 100 -28 300 52 300"/>
+          <polygon class="head v fade" style="--d:2s" points="60,300 47,292 47,308"/>
+          <text class="t-lbl fade" style="--d:1.9s" transform="rotate(-90 -22 200)" x="-22" y="200" text-anchor="middle">היקש</text>
+        </svg>
+      </div>
+      <ul class="legend"><li class="n"><i></i>תפקיד של שם</li><li class="v"><i></i>תפקיד של פועל</li></ul>
+      <figcaption>בינוני שמשמש כפועל שואל את הצורה של העבר. בינוני שמשמש כשם נשאר נָדוֹן.</figcaption>
+    </figure>
+    <p class="note">הצורות המקראיות הן מה שכללי המקרא מנבאים לשורש הזה, ולא בהכרח ציטוט מפסוק.</p>
+  </div>
+</section>
+
+<!-- 3 · why -->
+<section class="slide" id="s3" aria-label="שקף 3">
+  <div class="wrap">
+    <h2 class="rise">למה זה קרה: שלושה צעדים</h2>
+    <p class="lead rise" style="--d:.1s">אף אחד לא החליט על זה. זה שינוי שקורה בדוברים.</p>
+    <div class="card rise" style="--d:.2s">
+      <div class="steps">
+        <div class="step rise" style="--d:.3s">
+          <h3>במקרא</h3>
+          <span class="chip n">נָדוֹן</span>
+          <p>הבינוני הוא בעיקר שם, ולכן הוא לובש צורה של שם.</p>
+        </div>
+        <div class="link fade" style="--d:.9s">
+          <svg viewBox="0 0 52 18" aria-hidden="true"><path d="M50 9 H4 M12 2 L4 9 L12 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>התפקיד משתנה</span>
+        </div>
+        <div class="step rise" style="--d:.8s">
+          <h3>אחרי גלות בבל</h3>
+          <span class="chip mid">הווה / עתיד</span>
+          <p>בפי העם הבינוני מתחיל לשמש גם כפועל.</p>
+        </div>
+        <div class="link fade" style="--d:1.5s">
+          <svg viewBox="0 0 52 18" aria-hidden="true"><path d="M50 9 H4 M12 2 L4 9 L12 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>היקש לצורת העבר</span>
+        </div>
+        <div class="step rise" style="--d:1.4s">
+          <h3>בחז״ל</h3>
+          <span class="chip v">נִידּוֹן</span>
+          <p>פועל נראה כמו פועל, ולכן הבינוני מקבל את צורת העבר.</p>
+        </div>
+      </div>
+    </div>
+    <p class="note rise" style="--d:1.7s"><strong>היקש</strong> הוא הכוח שמיישר צורות כדי שיהיו דומות לדגם מוכר. הוא אותו כוח שגורם לילד לומר ״אבאים״ במקום ״אבות״.</p>
+  </div>
+</section>
+
+<!-- 4 · shomeret -->
+<section class="slide" id="s4" aria-label="שקף 4">
+  <div class="wrap">
+    <h2 class="rise">ההוכחה: מה קורה כשמצמידים כינוי</h2>
+    <p class="lead rise" style="--d:.1s">״שומרת״ ועוד ״אותו״. במקרא הכינוי נצמד כמו אל שם. בחז״ל הוא נצמד כמו אל פועל.</p>
+    <figure class="card rise" style="--d:.2s">
+      <div class="fig">
+        <svg viewBox="0 0 720 312" role="img" aria-label="במקרא שׁוֹמַרְתּוֹ נוטה כמו השם מַלְכּוֹ. בחז״ל שׁוֹמְרַתּוֹ נוטה כמו הפועל שְׁמָרַתּוּ. הפתח עובר מהמ״ם אל הרי״ש.">
+          <defs></defs>
+          <g class="fade" style="--d:.2s">
+            <text class="t-hd" x="540" y="26" text-anchor="middle">לשון המקרא</text>
+            <text class="t-hd" x="180" y="26" text-anchor="middle">לשון חז״ל</text>
+          </g>
+          <!-- big words -->
+          <text class="t-big rise" style="--d:.3s" x="540" y="108" text-anchor="middle"><tspan>שׁוֹ</tspan><tspan class="u-n mark" style="--d:1.3s">מַ</tspan><tspan>רְתּוֹ</tspan></text>
+          <text class="t-big rise" style="--d:1.2s" x="180" y="108" text-anchor="middle"><tspan>שׁוֹמְ</tspan><tspan class="u-v mark" style="--d:1.9s">רַ</tspan><tspan>תּוֹ</tspan></text>
+          <!-- same word, other period -->
+          <path class="flow draw" pathLength="1" style="--d:.9s" d="M 424 92 H 318"/>
+          <polygon class="head fade" style="--d:1.5s" points="308,92 320,85 320,99"/>
+          <text class="t-sub fade" style="--d:1s" x="366" y="76" text-anchor="middle">הפתח זז</text>
+          <!-- models -->
+          <line class="flow dash fade" style="--d:.7s" x1="540" y1="140" x2="540" y2="202"/>
+          <polygon class="head m fade" style="--d:.7s" points="540,212 533,200 547,200"/>
+          <text class="t-sub fade" style="--d:.7s" x="598" y="176" text-anchor="middle">נוטה כמו</text>
+          <line class="flow dash fade" style="--d:1.6s" x1="180" y1="140" x2="180" y2="202"/>
+          <polygon class="head m fade" style="--d:1.6s" points="180,212 173,200 187,200"/>
+          <text class="t-sub fade" style="--d:1.6s" x="238" y="176" text-anchor="middle">נוטה כמו</text>
+          <g class="rise" style="--d:.8s">
+            <rect class="box n" x="425" y="218" width="230" height="78" rx="18"/>
+            <text class="t-form" x="540" y="258" text-anchor="middle">מַלְכּוֹ</text>
+            <text class="t-cap" x="540" y="283" text-anchor="middle">שם: מֶלֶךְ ← מַלְכּוֹ</text>
+          </g>
+          <g class="rise" style="--d:1.7s">
+            <rect class="box v" x="65" y="218" width="230" height="78" rx="18"/>
+            <text class="t-form" x="180" y="258" text-anchor="middle">שְׁמָרַתּוּ</text>
+            <text class="t-cap" x="180" y="283" text-anchor="middle">פועל: שָׁמְרָה ← שְׁמָרַתּוּ</text>
+          </g>
+        </svg>
+      </div>
+      <ul class="legend"><li class="n"><i></i>דגם של שם</li><li class="v"><i></i>דגם של פועל</li></ul>
+      <figcaption>אותה מילה, אותו כינוי. הפתח עובר מהמ״ם אל הרי״ש, כי בחז״ל המילה נוטה לפי הדגם של הפועל.</figcaption>
+    </figure>
+    <p class="note">גם במקרא יש צורות כאלה, למשל <span class="ex">לְיוֹלַדְתּוֹ</span> (משלי יז כה). בכתבי היד של המשנה יש יוצאי דופן, ולכן זו נטייה ולא חוק.</p>
+  </div>
+</section>
+
+<!-- 5 · decision -->
+<section class="slide" id="s5" aria-label="שקף 5">
+  <div class="wrap">
+    <h2 class="rise">הכלל, ומה נשאר בחוץ</h2>
+    <p class="lead rise" style="--d:.1s">בלשון חז״ל מספיק לשאול שאלה אחת על התפקיד.</p>
+    <figure class="card rise" style="--d:.2s">
+      <div class="fig">
+        <svg viewBox="0 0 720 362" role="img" aria-label="תרשים החלטה: אם הבינוני משמש כפועל של פעולה הוא נִידּוֹן. אם הוא שם, תואר או פועל מצב הוא נָדוֹן.">
+          <g class="rise" style="--d:.2s">
+            <rect class="node" x="230" y="12" width="260" height="42" rx="21"/>
+            <text class="t-lbl" x="360" y="40" text-anchor="middle">בינוני בלשון חז״ל</text>
+          </g>
+          <line class="flow draw" pathLength="1" style="--d:.5s" x1="360" y1="54" x2="360" y2="86"/>
+          <g class="rise" style="--d:.7s">
+            <polygon class="node" points="360,88 520,152 360,216 200,152"/>
+            <text class="t-lbl" x="360" y="148" text-anchor="middle">משמש כפועל</text>
+            <text class="t-lbl" x="360" y="170" text-anchor="middle">של פעולה?</text>
+          </g>
+          <!-- yes -->
+          <path class="flow v draw" pathLength="1" style="--d:1.1s" d="M 520 152 H 585 V 252"/>
+          <polygon class="head v fade" style="--d:1.9s" points="585,262 577,248 593,248"/>
+          <text class="t-lbl fade" style="--d:1.2s" x="552" y="140" text-anchor="middle">כן</text>
+          <g class="rise" style="--d:1.7s">
+            <rect class="box v" x="470" y="266" width="230" height="84" rx="18"/>
+            <text class="t-form" x="585" y="302" text-anchor="middle">נִידּוֹן</text>
+            <text class="t-cap" x="585" y="326" text-anchor="middle">פועל פעולה: נידון, נימול</text>
+          </g>
+          <!-- no -->
+          <path class="flow n draw" pathLength="1" style="--d:1.1s" d="M 200 152 H 135 V 252"/>
+          <polygon class="head n fade" style="--d:1.9s" points="135,262 127,248 143,248"/>
+          <text class="t-lbl fade" style="--d:1.2s" x="168" y="140" text-anchor="middle">לא</text>
+          <g class="rise" style="--d:2.1s">
+            <rect class="box n" x="20" y="266" width="230" height="84" rx="18"/>
+            <text class="t-form" x="135" y="302" text-anchor="middle">נָדוֹן</text>
+            <text class="t-cap" x="135" y="326" text-anchor="middle">שם או תואר, או פועל מצב</text>
+          </g>
+        </svg>
+      </div>
+      <ul class="legend"><li class="n"><i></i>נשאר כמו שם</li><li class="v"><i></i>נראה כמו פועל</li></ul>
+      <figcaption>פעלי מצב, כמו <span class="ex">נָכוֹן</span> ו<span class="ex">נָבוֹךְ</span>, לא עברו את השינוי, כי הם לא פעולה אקטיבית. ו״הנדון״ ממשיך לחיות כשם עד היום.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 6 · summary -->
+<section class="slide" id="s6" aria-label="שקף 6">
+  <div class="wrap">
+    <h2 class="rise">שלוש טעויות נפוצות</h2>
+    <div class="cards3">
+      <div class="card rise" style="--d:.15s">
+        <span class="bad">לא מדויק</span>
+        <h3>״נָדוֹן הפך לעבר״</h3>
+        <p>זה הפוך. נִידּוֹן היא צורת העבר, והבינוני שאל אותה.</p>
+      </div>
+      <div class="card rise" style="--d:.3s">
+        <span class="bad">לא מדויק</span>
+        <h3>״במקרא בינוני לא לוקח מושא״</h3>
+        <p>הוא לוקח, כמו ב״שֹׁמֵר פִּיו וּלְשׁוֹנוֹ״ (משלי כא כג). ההבדל הוא איך המילה נראית כשמצמידים לה כינוי.</p>
+      </div>
+      <div class="card rise" style="--d:.45s">
+        <span class="bad">לא מדויק</span>
+        <h3>״נָדוֹן נעלם״</h3>
+        <p>הוא נשאר כשם: ״העניין הנדון״. רק הבינוני בתפקיד פועל קיבל צורה חדשה.</p>
+      </div>
+    </div>
+    <p class="final rise" style="--d:.7s">פועל נראה כמו פועל. שם נראה כמו שם.</p>
+    <p class="note rise" style="--d:.8s">מבוסס על שיעור בקורס תורת הצורות, על סיכום המרצה ועל התמלול. ההערה שנִדּוֹן נוצר בהשפעת יִדּוֹן נאמרה בשיעור בקצרה ולא נבדקה.</p>
+  </div>
+</section>
+
+</main>
+
+<nav class="bar" aria-label="ניווט במצגת">
+  <button class="nav" id="prev" type="button" aria-label="לשקף הקודם">
+    <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M6 3 L12.5 9 L6 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>הקודם</span>
+  </button>
+  <div class="dots" id="dots" role="tablist" aria-label="שקפים"></div>
+  <span class="count" id="count" aria-live="polite">1 / 6</span>
+  <button class="nav" id="next" type="button" aria-label="לשקף הבא">
+    <span>הבא</span><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M12 3 L5.5 9 L12 15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</nav>
+</div>
+
+<script>
+(function () {
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var dotsEl = document.getElementById('dots');
+  var prev = document.getElementById('prev');
+  var next = document.getElementById('next');
+  var count = document.getElementById('count');
+  var last = slides.length - 1;
+  var cur = 0;
+  var dots = slides.map(function (s, k) {
+    var b = document.createElement('button');
+    b.className = 'dot'; b.type = 'button';
+    b.setAttribute('role', 'tab');
+    b.setAttribute('aria-label', 'שקף ' + (k + 1));
+    b.addEventListener('click', function () { show(k); });
+    dotsEl.appendChild(b);
+    return b;
+  });
+  function show(n) {
+    n = Math.max(0, Math.min(last, n));
+    cur = n;
+    slides.forEach(function (s, k) {
+      s.classList.toggle('active', k === n);
+      s.setAttribute('aria-hidden', k === n ? 'false' : 'true');
+    });
+    dots.forEach(function (d, k) { d.setAttribute('aria-current', k === n ? 'true' : 'false'); d.setAttribute('aria-selected', k === n ? 'true' : 'false'); });
+    prev.disabled = n === 0;
+    next.disabled = n === last;
+    count.textContent = (n + 1) + ' / ' + (last + 1);
+    slides[n].scrollTop = 0;
+    try { history.replaceState(null, '', '#' + (n + 1)); } catch (e) {}
+  }
+  prev.addEventListener('click', function () { show(cur - 1); });
+  next.addEventListener('click', function () { show(cur + 1); });
+  document.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    // In a right-to-left deck, forward is leftward.
+    if (e.key === 'ArrowLeft' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(cur + 1); }
+    else if (e.key === 'ArrowRight' || e.key === 'PageUp') { e.preventDefault(); show(cur - 1); }
+    else if (e.key === 'Home') { show(0); }
+    else if (e.key === 'End') { show(last); }
+  });
+  var x0 = null, y0 = null;
+  document.getElementById('stage').addEventListener('touchstart', function (e) {
+    x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
+  }, { passive: true });
+  document.getElementById('stage').addEventListener('touchend', function (e) {
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+    x0 = null;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.6) show(dx > 0 ? cur + 1 : cur - 1);
+  }, { passive: true });
+  function fromHash() {
+    var h = parseInt((location.hash || '').slice(1), 10);
+    show(h >= 1 && h <= slides.length ? h - 1 : 0);
+  }
+  window.addEventListener('hashchange', function () {
+    var h = parseInt((location.hash || '').slice(1), 10);
+    if (h >= 1 && h <= slides.length && h - 1 !== cur) show(h - 1);
+  });
+  fromHash();
+})();
+</script>
+</body>
+</html>
