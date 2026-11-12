@@ -1,0 +1,810 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>APA 7. מהיר. אוטומטי. עברית.</title>
+<meta name="description" content="בונים הפניה לפי APA 7 למאמר בכתב עת או בספר ערוך, בעברית ובאנגלית, ומעתיקים אותה ל-Word.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500&family=IBM+Plex+Sans+Hebrew:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+try { document.documentElement.dataset.theme = localStorage.getItem('apa7.theme') === 'dark' ? 'dark' : 'light'; } catch (e) {}
+// Opening animation: once per tab (a reload in the same tab skips it).
+try { if (sessionStorage.getItem('apa7.intro')) document.documentElement.classList.add('no-intro'); else sessionStorage.setItem('apa7.intro', '1'); } catch (e) {}
+</script>
+<style>
+:root {
+  --paper: #F3F5F2; --surface: #FFFFFF; --ink: #1A2233; --muted: #5B6476; --rule: #D6DBE1;
+  --accent: #23409A; --accent-ink: #FFFFFF; --mark: #FFE37E; --ai: #7B5BD6; --ai-bg: #F3EFFF; --web: #B26B00; --web-bg: #FFF4E0; --warn: #9A4A00;
+  --sans: "IBM Plex Sans Hebrew", system-ui, sans-serif;
+  --serif: "Frank Ruhl Libre", "Times New Roman", serif;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  color-scheme: light;
+}
+/* Light is the default; dark only when chosen with the header toggle. */
+:root[data-theme="dark"] {
+  --paper: #11151D; --surface: #1A202B; --ink: #E6E9EF; --muted: #9AA3B3; --rule: #2D3543;
+  --accent: #8EA6FF; --accent-ink: #0E1220; --mark: rgba(255, 214, 90, .3); --ai: #A88BFF; --ai-bg: #241F37; --web: #E8A34A; --web-bg: #2D2414; --warn: #F0A55A;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 16px/1.55 var(--sans); -webkit-text-size-adjust: 100%; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* header + tabs */
+.top > .theme { position: absolute; inset-inline-end: 1rem; top: 1.1rem; font-size: .92rem; }
+.top { position: relative; max-width: 70rem; margin: 0 auto; padding: 1.25rem 1rem 0; display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: .25rem 2rem; border-bottom: 1px solid var(--rule); }
+.top h1 { font: 600 1.35rem/1.2 var(--sans); margin: 0; }
+.top p { margin: .2rem 0 .9rem; color: var(--muted); font-size: .92rem; }
+.tabs { display: flex; gap: 1.75rem; }
+.tabs button { all: unset; cursor: pointer; padding: .55rem 0 .7rem; font-weight: 500; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-color: var(--ink); }
+.tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tabs small { font-weight: 400; color: var(--muted); }
+
+main { max-width: 70rem; margin: 0 auto; padding: 1.5rem 1rem 7rem; }
+.grid { display: grid; gap: 2rem; }
+
+/* form */
+.form { display: grid; gap: 1.5rem; min-width: 0; }
+.group { border: 0; margin: 0; padding: 0; min-width: 0; display: grid; gap: .5rem; }
+.group > legend, .lbl { font-weight: 500; font-size: .95rem; padding: 0; }
+.group > legend { margin-bottom: .45rem; }
+.field { display: grid; gap: .35rem; min-width: 0; }
+input, textarea, select { font: inherit; color: inherit; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: .55rem .75rem; min-height: 44px; width: 100%; }
+input:focus, textarea:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: var(--accent); }
+textarea { resize: vertical; min-height: 4.4em; field-sizing: content; }
+input.ai, textarea.ai { background: var(--ai-bg); border-color: var(--ai); }
+input.web, textarea.web { background: var(--web-bg); border-color: var(--web); }
+.hint { color: var(--muted); font-size: .85rem; margin: 0; }
+.row-top { display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; align-items: end; justify-content: space-between; }
+.row-top .field { width: 11rem; }
+.row3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; }
+.row2 { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: .75rem; }
+
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 8px; padding: 3px; background: var(--surface); }
+.seg label { position: relative; }
+.seg input { position: absolute; opacity: 0; width: 1px; height: 1px; min-height: 0; }
+.seg span { display: block; padding: .5rem 1rem; border-radius: 6px; cursor: pointer; }
+.seg input:checked + span { background: var(--ink); color: var(--paper); }
+.seg input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.people { display: grid; gap: .5rem; }
+.person { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 44px; gap: .5rem; }
+.x { all: unset; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 6px; color: var(--muted); cursor: pointer; font-size: 1.05rem; }
+.x:hover { background: var(--rule); color: var(--ink); }
+.x:focus-visible { outline: 2px solid var(--accent); }
+@media (max-width: 400px) {
+  .person { grid-template-columns: minmax(0, 1fr) 44px; }
+  .person [data-f="given"] { grid-column: 1; }
+  .person .x { grid-column: 2; grid-row: 1; }
+  .row2 { grid-template-columns: minmax(0, 1fr); }
+}
+.textbtn { all: unset; justify-self: start; color: var(--accent); font-weight: 500; cursor: pointer; padding: .4rem 0; min-height: 32px; }
+.textbtn:hover { text-decoration: underline; }
+.textbtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+.banner { border-inline-start: 3px solid var(--ai); background: var(--ai-bg); padding: .75rem 1rem; border-radius: 6px; margin: 0; }
+.banner .textbtn { padding: 0; min-height: 0; text-decoration: underline; }
+.demo { margin: 0; padding: .55rem .9rem; border-inline-start: 3px solid var(--rule); color: var(--muted); font-size: .92rem; }
+.demo .textbtn { padding: 0; min-height: 0; }
+body[data-type="chapter"] .only-journal, body[data-type="journal"] .only-chapter { display: none; }
+
+/* output */
+.out { display: grid; gap: .9rem; align-content: start; min-width: 0; }
+.cap { font-size: .85rem; color: var(--muted); margin: 0; }
+.card { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.25rem; }
+/* APA layout: double spacing + 1.25cm hanging indent, as the guide asks */
+#ref { margin: 0; font: 400 1.16rem/2 var(--serif); padding-inline-start: 1.25cm; text-indent: -1.25cm; overflow-wrap: anywhere; }
+#ref.ghost { color: var(--muted); }
+@media (max-width: 600px) { #ref { font-size: 1.06rem; padding-inline-start: 1.6em; text-indent: -1.6em; } }
+#ref span { border-radius: 3px; transition: background-color .15s; }
+@media (hover: hover) and (pointer: fine) {
+  #ref[data-focus="authors"] [data-k="authors"], #ref[data-focus="date"] [data-k="date"], #ref[data-focus="title"] [data-k="title"],
+  #ref[data-focus="source"] [data-k="source"], #ref[data-focus="link"] [data-k="link"] { background: var(--mark); }
+}
+.primary { font: 500 1rem var(--sans); background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 8px; min-height: 48px; padding: 0 1.25rem; cursor: pointer; }
+.primary:disabled { opacity: .45; cursor: not-allowed; }
+.missing { color: var(--warn); font-size: .9rem; margin: 0; }
+.missing:empty { display: none; }
+.intext h2 { font: 500 .95rem var(--sans); margin: .6rem 0 .2rem; }
+.cite { display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .5rem 0; border-top: 1px solid var(--rule); }
+.cite output { font: 400 1.05rem/1.5 var(--serif); }
+.small { font: 500 .9rem var(--sans); color: var(--ink); background: transparent; border: 1px solid var(--rule); border-radius: 6px; min-height: 40px; padding: 0 .85rem; cursor: pointer; flex: none; }
+.small:hover { border-color: var(--ink); }
+
+@media (min-width: 900px) {
+  .grid { grid-template-columns: minmax(0, 1fr) minmax(0, 27rem); align-items: start; gap: 3rem; }
+  .out { position: sticky; top: 1rem; }
+  main { padding-bottom: 3rem; }
+}
+
+/* mobile copy dock: hidden on desktop, while typing, on the PDF tab, and while the form is empty */
+.dock { display: none; }
+@media (max-width: 899px) {
+  .dock { display: flex; position: fixed; inset-inline: 0; bottom: 0; gap: .75rem; align-items: center; padding: .6rem 1rem calc(.6rem + env(safe-area-inset-bottom)); background: var(--surface); border-top: 1px solid var(--rule); }
+  .dock a { flex: 1; min-width: 0; color: var(--ink); text-decoration: none; font: 400 .95rem/1.4 var(--serif); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  body:has(:is(input, textarea, select):focus) .dock, body.empty .dock, body[data-tab="t-pdf"] .dock { display: none; }
+}
+
+/* PDF tab */
+.pdf { max-width: 38rem; display: grid; gap: 1.1rem; }
+.pdf h2 { font: 600 1.15rem var(--sans); margin: 0; }
+.pdf p { margin: 0; }
+.check { display: flex; gap: .55rem; align-items: center; cursor: pointer; }
+.check input { width: 1.15rem; height: 1.15rem; min-height: 0; accent-color: var(--accent); }
+.drop { display: grid; place-items: center; text-align: center; gap: .25rem; min-height: 8.5rem; padding: 1rem; border: 1.5px dashed var(--rule); border-radius: 8px; background: var(--surface); cursor: pointer; }
+.drop.over, .drop:hover { border-color: var(--accent); }
+.drop:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+.drop input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.drop b { font-weight: 500; }
+#fname { color: var(--muted); font-size: .9rem; overflow-wrap: anywhere; }
+details summary { cursor: pointer; color: var(--muted); font-size: .92rem; }
+details .field { margin-top: .6rem; }
+#status { min-height: 1.5em; }
+#status.err { color: var(--warn); }
+/* Opening animation: a poster-size citation whose "title" is the site name. Strips sweep in reading direction (right → left), the name pops in, then all sweep out. */
+.intro { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 4vh 6vw; background: #141A33; overflow: hidden auto; }
+.no-intro .intro { display: none; }
+.intro-stack { width: min(62rem, 100%); min-height: 100%; display: grid; grid-template-rows: 1fr auto 1fr; justify-items: center; text-align: center; gap: clamp(.75rem, 3.5vh, 2.5rem); }
+.intro-top { align-self: end; display: flex; flex-wrap: wrap; justify-content: center; align-items: end; gap: .75rem 1rem; }
+.intro-bottom { align-self: start; display: grid; justify-items: center; gap: clamp(.75rem, 2.5vh, 1.75rem); }
+.intro-row { display: inline-grid; gap: .35rem; justify-items: center; }
+.intro-lbl { font: 500 .9rem/1 var(--sans); color: var(--c); opacity: 0; }
+.intro-rib { display: inline-block; max-width: 100%; padding: .1em .5em .18em; border-radius: 4px; background: var(--c); color: #141A33;
+  font: 500 clamp(1.05rem, 4.2vw, 2rem)/1.3 var(--serif); clip-path: inset(0 0 0 100%); transform: rotate(var(--r)); }
+.intro-title { margin: 0; display: grid; justify-items: center; gap: clamp(.35rem, 1.6vw, .9rem); }
+.intro-line { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(.4rem, 1.6vw, .9rem); }
+.intro-word { clip-path: none; opacity: 0; padding: .02em .22em .1em; border-radius: 6px; font: 600 clamp(1.8rem, min(9vw, 8.5vh), 5.2rem)/1.15 var(--sans); }
+.intro-word.big { font-size: clamp(3rem, min(16vw, 15vh), 9.5rem); line-height: 1.05; padding: .04em .2em .1em; }
+.intro-go { font: 600 clamp(1.05rem, 2.8vw, 1.3rem)/1 var(--sans); color: #141A33; background: #FFFFFF; border: 0; border-radius: 999px;
+  min-height: 52px; padding: 0 2.4em; cursor: pointer; opacity: 0; }
+.intro-go:focus-visible { outline: 3px solid #FFE14D; outline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) { .intro-go:hover { background: #FFE14D; } }
+.intro.go .intro-go { animation: rise 480ms var(--ease-out) var(--d) both; }
+.intro.out .intro-go { animation: fade-away 220ms var(--ease-out) both; }
+.intro-brand { margin: 0; font: 500 clamp(1rem, 2.6vw, 1.35rem)/1.3 var(--sans); color: #FFFFFF; opacity: 0; }
+
+.intro.go .intro-rib { animation: rib-in 560ms var(--ease-out) var(--d) both; }
+.intro.go .intro-word { animation: pop 600ms var(--ease-out) var(--d) both; }
+.intro.go .intro-lbl { animation: rise 320ms var(--ease-out) calc(var(--d) + 200ms) both; }
+.intro.go .intro-brand { animation: rise 480ms var(--ease-out) var(--d) both; }
+.intro.out .intro-word { opacity: 1; }
+.intro.out .intro-rib { animation: rib-out 380ms var(--ease-out) calc(var(--d) / 6) both; }
+.intro.out .intro-lbl, .intro.out .intro-brand { animation: fade-away 220ms var(--ease-out) both; }
+.intro.out { animation: fade-away 420ms var(--ease-out) 320ms both; }
+.intro.out-fast { animation: fade-away 220ms var(--ease-out) both; }
+@keyframes rib-in { from { clip-path: inset(0 0 0 100%); transform: translateX(32px) rotate(var(--r)); } to { clip-path: inset(0); transform: translateX(0) rotate(var(--r)); } }
+@keyframes rib-out { from { clip-path: inset(0); transform: translateX(0) rotate(var(--r)); } to { clip-path: inset(0 100% 0 0); transform: translateX(-32px) rotate(var(--r)); } }
+@keyframes pop { from { opacity: 0; transform: translateY(14px) scale(.9) rotate(var(--r)); } to { opacity: 1; transform: rotate(var(--r)); } }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes fade-away { from { opacity: 1; } to { opacity: 0; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+/* Reduced motion: same content, opacity only, shorter. */
+@media (prefers-reduced-motion: reduce) {
+  .intro-rib { clip-path: none; transform: none; opacity: 0; }
+  .intro.go .intro-rib, .intro.go .intro-lbl, .intro.go .intro-brand, .intro.go .intro-go { animation: fade-in 300ms ease calc(var(--d) / 3) both; }
+  .intro.out .intro-rib, .intro.out .intro-lbl, .intro.out .intro-brand { animation: none; opacity: 1; }
+  .intro.out { animation-delay: 0s; }
+}
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body data-tab="t-manual">
+<div class="intro" id="intro" role="dialog" aria-label="פתיחה"><div class="intro-stack"></div></div>
+<header class="top">
+  <button type="button" class="textbtn theme" id="theme">מצב כהה</button>
+  <div>
+    <h1>APA 7. מהיר. אוטומטי. עברית.</h1>
+    <p>בונה הפניות לרשימת המקורות: מאמר בכתב עת או בספר ערוך, בעברית או באנגלית</p>
+  </div>
+  <nav class="tabs" role="tablist" aria-label="דרך ההזנה">
+    <button role="tab" id="t-manual" aria-controls="p-manual" aria-selected="true">הזנה ידנית</button>
+    <button role="tab" id="t-pdf" aria-controls="p-pdf" aria-selected="false" tabindex="-1">חילוץ מ-PDF <small>Gemini</small></button>
+  </nav>
+</header>
+
+<main>
+<section id="p-manual" role="tabpanel" aria-labelledby="t-manual" class="grid">
+  <form id="f" class="form" autocomplete="off" novalidate>
+    <div class="row-top">
+      <fieldset class="group">
+        <legend>איפה פורסם המאמר</legend>
+        <div class="seg">
+          <label><input type="radio" name="type" value="journal" checked><span>כתב עת</span></label>
+          <label><input type="radio" name="type" value="chapter"><span>ספר ערוך</span></label>
+        </div>
+      </fieldset>
+      <label class="field"><span class="lbl">שפת המקור</span>
+        <select name="lang"><option value="">אוטומטי</option><option value="he">עברית</option><option value="en">English</option></select>
+      </label>
+    </div>
+
+    <p class="demo" id="demo" hidden>זו הפניה לדוגמה. <button type="button" class="textbtn" data-clear>ניקוי הטופס והתחלה</button></p>
+    <p class="banner" id="banner" hidden><span id="banner-text"></span> <button type="button" class="textbtn" id="flip" hidden></button></p>
+
+    <fieldset class="group" data-seg="authors">
+      <legend>מחברים</legend>
+      <div class="people" id="authors"></div>
+      <button type="button" class="textbtn" data-add="authors">+ מחבר</button>
+      <p class="hint">ארגון כמחבר: כתבו את שמו המלא בשדה הראשון והשאירו את "שם פרטי" ריק.</p>
+    </fieldset>
+
+    <label class="field" data-seg="date"><span class="lbl">שנת פרסום</span>
+      <input name="year" placeholder='2024, תשפ"ד או בדפוס' dir="auto">
+    </label>
+
+    <div class="field" data-seg="title">
+      <label class="lbl" for="title">כותרת המאמר</label>
+      <textarea id="title" name="title" rows="2" dir="auto" placeholder="כולל כותרת משנה אחרי נקודתיים"></textarea>
+      <button type="button" class="textbtn" id="sc" hidden>להמיר ל-sentence case כנדרש ב-APA</button>
+    </div>
+
+    <div class="group only-journal" data-seg="source">
+      <label class="field"><span class="lbl">שם כתב העת</span>
+        <input name="journal" dir="auto" placeholder="שם מלא, ללא קיצורים">
+      </label>
+      <div class="row3">
+        <label class="field"><span class="lbl">כרך</span><input name="volume" dir="auto"></label>
+        <label class="field"><span class="lbl">גיליון</span><input name="issue" dir="auto"></label>
+        <label class="field"><span class="lbl">עמודים</span><input name="pages" dir="auto" placeholder="118–119"></label>
+      </div>
+      <p class="hint">יש מספר מאמר במקום עמודים? כתבו בשדה העמודים: Article e0123</p>
+    </div>
+
+    <div class="group only-chapter" data-seg="source">
+      <fieldset class="group">
+        <legend>עורכי הספר</legend>
+        <div class="people" id="editors"></div>
+        <button type="button" class="textbtn" data-add="editors">+ עורך</button>
+      </fieldset>
+      <label class="field" id="role-field"><span class="lbl">תואר העורך</span>
+        <select name="role"><option>עורך</option><option>עורכת</option></select>
+      </label>
+      <label class="field"><span class="lbl">שם הספר</span><input name="book" dir="auto"></label>
+      <div class="row2">
+        <label class="field"><span class="lbl">הוצאה לאור</span><input name="publisher" dir="auto"></label>
+        <label class="field"><span class="lbl">עמודי הפרק</span><input name="cpages" dir="auto" placeholder="423–426"></label>
+      </div>
+    </div>
+
+    <label class="field" data-seg="link"><span class="lbl">DOI או קישור</span>
+      <input name="link" dir="ltr" inputmode="url" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="10.1037/xxxx או https://…">
+    </label>
+
+    <button type="button" class="textbtn" data-clear>ניקוי הטופס</button>
+  </form>
+
+  <aside class="out" id="out" aria-label="ההפניה">
+    <p class="cap">ההפניה לרשימת המקורות</p>
+    <div class="card"><p id="ref"></p></div>
+    <button type="button" class="primary" data-copy="ref">העתקת ההפניה</button>
+    <p class="missing" id="missing"></p>
+    <p class="hint">מועתק עם נטוי בלבד, בלי גופן. כניסה תלויה של 1.25 ס"מ ורווח כפול מגדירים בעיצוב הפסקה ב-Word.</p>
+    <div class="intext" id="intext">
+      <h2>הפניה בגוף הטקסט</h2>
+      <div class="cite"><output id="paren"></output><button type="button" class="small" data-copy="paren">העתקה</button></div>
+      <div class="cite"><output id="narrative"></output><button type="button" class="small" data-copy="narrative">העתקה</button></div>
+    </div>
+  </aside>
+</section>
+
+<section id="p-pdf" role="tabpanel" aria-labelledby="t-pdf" hidden>
+  <div class="pdf">
+    <h2>חילוץ פרטים מקובץ PDF</h2>
+    <p>Gemini קורא את שלושת העמודים הראשונים ואת שם הקובץ, משלים מהרשת פרטים שחסרים, ומתרגם מאמר באנגלית לעברית. ההפניה עצמה נבנית לפי הכללים, ואתם בודקים את השדות לפני ההעתקה.</p>
+    <label class="field"><span class="lbl">מפתח Gemini API</span>
+      <input type="password" id="key" dir="ltr" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="AIza…">
+    </label>
+    <label class="check"><input type="checkbox" id="remember"> לזכור את המפתח בדפדפן הזה</label>
+    <p class="hint">אין לכם מפתח? <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">יוצרים אחד בחינם ב-Google AI Studio</a>. המפתח, העמודים ושם הקובץ נשלחים ישירות מהדפדפן שלכם ל-Google, ולא לשום מקום אחר.</p>
+    <label class="field"><span class="lbl">מודל</span>
+      <select id="model">
+        <optgroup label="חינמי">
+          <option value="gemini-3.8-flash">Gemini 3.8 Flash</option>
+          <option value="gemini-3.6-flash">Gemini 3.6 Flash</option>
+          <option value="gemini-3.5-flash-lite">Gemini 3.5 Flash-Lite</option>
+          <option value="gemini-3.1-flash-lite">Gemini 3.1 Flash-Lite</option>
+          <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+          <option value="gemini-flash-latest">Gemini Flash Latest</option>
+          <option value="gemini-flash-lite-latest">Gemini Flash-Lite Latest</option>
+          <option value="gemini-2.5-flash-lite">Gemini 2.5 Flash-Lite</option>
+          <option value="gemini-3-flash-preview">Gemini 3 Flash Preview</option>
+          <option value="gemini-3.1-flash-lite-preview">Gemini 3.1 Flash Lite Preview</option>
+          <option value="gemini-3.5-flash">Gemini 3.5 Flash</option>
+          <option value="gemini-3.7-flash">Gemini 3.7 Flash</option>
+        </optgroup>
+        <optgroup label="בתשלום">
+          <option value="gemini-4-argon">Gemini 4 Argon</option>
+          <option value="gemini-3.1-pro-preview">Gemini 3.1 Pro Preview</option>
+          <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+          <option value="gemma-4-26b-a4b-it">Gemma 4 26B A4B IT</option>
+          <option value="gemma-4-31b-it">Gemma 4 31B IT</option>
+          <option value="gemini-pro-latest">Gemini Pro Latest</option>
+          <option value="gemini-4-carbon">Gemini 4 Carbon</option>
+          <option value="gemini-4-hydrogen">Gemini 4 Hydrogen</option>
+        </optgroup>
+        <option value="">מזהה אחר…</option>
+      </select>
+    </label>
+    <label class="field" id="custom-field" hidden><span class="lbl">מזהה המודל</span>
+      <input id="custom-model" dir="ltr" autocapitalize="none" spellcheck="false" placeholder="gemini-…">
+      <span class="hint">אפשר להקליד כל מזהה מודל ש-Google מציעה.</span>
+    </label>
+    <label class="drop" id="drop">
+      <input type="file" id="file" accept="application/pdf,.pdf">
+      <b>בחירת קובץ PDF</b>
+      <span class="hint">או גרירה לכאן</span>
+      <span id="fname"></span>
+    </label>
+    <button type="button" class="primary" id="extract">חילוץ ומילוי הטופס</button>
+    <p id="status" role="status"></p>
+  </div>
+</section>
+</main>
+
+<div class="dock" aria-label="העתקה מהירה">
+  <a href="#out" id="dock-text"></a>
+  <button type="button" class="primary" data-copy="ref">העתקה</button>
+</div>
+<p class="sr" id="live" aria-live="polite"></p>
+
+<script src="apa.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const form = $('#f');
+const FIELDS = ['type', 'lang', 'year', 'title', 'journal', 'volume', 'issue', 'pages', 'book', 'cpages', 'publisher', 'role', 'link'];
+const DEFAULTS = { type: 'journal', role: 'עורך' };
+// Shown (greyed) while the form is empty: the real formatter applied to placeholder words, so the structure is visible.
+const SAMPLE = {
+  he: { authors: [{ family: 'שם משפחה', given: 'א' }], year: 'שנה', title: 'כותרת המאמר', journal: 'שם כתב העת', volume: 'כרך', issue: 'גיליון', pages: 'עמודים',
+        editors: [{ family: 'שם העורך', given: 'א' }], book: 'שם הספר', publisher: 'הוצאה לאור', lang: 'he' },
+  en: { authors: [{ family: 'Author', given: 'A A' }], year: 'Year', title: 'Title of the article', journal: 'Journal Name', volume: 'Volume', issue: 'Issue', pages: 'xx–xx',
+        editors: [{ family: 'Editor', given: 'E E' }], book: 'Title of the book', publisher: 'Publisher', lang: 'en' },
+};
+const store = {
+  get: k => { try { return localStorage.getItem(k); } catch { return null; } },
+  set: (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch {} },
+};
+const esc = s => s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+// The default example on a first visit (no saved draft). It fills both the journal and the chapter fields.
+const EXAMPLE = {
+  type: 'journal', authors: [{ family: 'בנרויו', given: 'שלו' }, { family: 'בוזגלו', given: 'אהרון' }], year: '2022',
+  title: 'הדרך המהירה ביותר לעצבן רקון', journal: 'לשוננו', volume: 'א', issue: '13', pages: '113-200',
+  editors: [{ family: 'כהן', given: 'דני' }], role: 'עורך', book: 'כל הדרכים הגרועות לקלף ביצה', publisher: 'לשם', cpages: '666-770',
+};
+let current = null;
+
+function addPerson(box, p = {}, focus = false) {
+  const row = document.createElement('div');
+  row.className = 'person';
+  const fam = box.id === 'authors' ? 'שם משפחה או ארגון' : 'שם משפחה';
+  row.innerHTML = `<input data-f="family" dir="auto" autocapitalize="words" placeholder="${fam}" aria-label="${fam}">` +
+    `<input data-f="given" dir="auto" autocapitalize="words" placeholder="שם פרטי" aria-label="שם פרטי">` +
+    `<button type="button" class="x" aria-label="הסרה">✕</button>`;
+  row.children[0].value = String(p.family || '');
+  row.children[1].value = String(p.given || '');
+  box.append(row);
+  if (focus) row.children[0].focus();
+}
+const people = id => [...$('#' + id).children].map(r => ({ family: r.children[0].value, given: r.children[1].value }));
+const filled = list => list.filter(p => (p.family + p.given).trim());
+
+function raw() {
+  const o = {};
+  for (const n of FIELDS) o[n] = form.elements[n].value;
+  o.authors = people('authors');
+  o.editors = people('editors');
+  return o;
+}
+const toApa = r => ({ ...r, pages: r.type === 'chapter' ? r.cpages : r.pages, editorRole: r.role });
+const hasContent = r => FIELDS.some(n => !(n in DEFAULTS) && n !== 'lang' && r[n].trim()) || filled([...r.authors, ...r.editors]).length > 0;
+
+function render() {
+  const r = raw();
+  const auto = APA.detectLang({ ...r, lang: '' });
+  const lang = r.lang || auto;
+  const empty = !hasContent(r);
+  form.elements.lang.options[0].text = `אוטומטי (${auto === 'he' ? 'עברית' : 'English'})`;
+  document.body.dataset.type = r.type;
+  document.body.classList.toggle('empty', empty);
+  $('#role-field').hidden = !(lang === 'he' && filled(r.editors).length <= 1);
+  $('#sc').hidden = !(lang === 'en' && APA.looksTitleCase(r.title) && APA.sentenceCase(r.title) !== r.title);
+
+  const res = APA.format(empty ? { ...SAMPLE[lang], type: r.type } : toApa(r));
+  const dir = res.lang === 'he' ? 'rtl' : 'ltr';
+  const ref = $('#ref');
+  ref.classList.toggle('ghost', empty);
+  ref.dir = dir;
+  ref.lang = res.lang;
+  ref.innerHTML = res.segments.map(s => `<span data-k="${s.key}">${s.html}</span>`).join(' ');
+  $('#dock-text').textContent = res.text;
+  $('#dock-text').dir = dir;
+  $('#missing').textContent = !empty && res.missing.length ? 'חסר: ' + res.missing.join(', ') : '';
+
+  const it = empty ? null : APA.inText(toApa(r));
+  $('#intext').hidden = !it;
+  for (const k of ['paren', 'narrative']) { $('#' + k).textContent = it ? it[k] : ''; $('#' + k).dir = dir; }
+  document.querySelectorAll('[data-copy="ref"]').forEach(b => (b.disabled = empty));
+  current = empty ? null : res;
+  if ($('#demo').hidden) store.set('apa7.draft', JSON.stringify(r)); // the untouched example is not a draft
+}
+
+// mode: '' = the user's own data, 'demo' = the default example, 'ai' = filled by Gemini (fields get marked).
+function fill(r = {}, mode = '') {
+  for (const n of FIELDS) form.elements[n].value = String((n === 'type' ? (r.type === 'chapter' ? 'chapter' : '') : r[n]) || DEFAULTS[n] || '');
+  for (const id of ['authors', 'editors']) {
+    const box = $('#' + id);
+    box.replaceChildren();
+    const list = Array.isArray(r[id]) ? r[id].filter(p => p && typeof p === 'object') : [];
+    (list.length ? list : [{}]).forEach(p => addPerson(box, p));
+  }
+  form.querySelectorAll('input:not([type="radio"]), textarea').forEach(el => {
+    el.classList.toggle('ai', mode === 'ai' && !!el.value.trim());
+    el.classList.remove('web');
+  });
+  $('#banner').hidden = mode !== 'ai';
+  $('#demo').hidden = mode !== 'demo';
+  render();
+}
+
+// Rich text with italics only. The block's dir keeps Hebrew entries RTL (page ranges then read right to left) and English LTR.
+async function copyRich(html, text) {
+  try {
+    await navigator.clipboard.write([new ClipboardItem({
+      'text/html': new Blob([html], { type: 'text/html' }),
+      'text/plain': new Blob([text], { type: 'text/plain' }),
+    })]);
+    return true;
+  } catch {
+    const onCopy = e => { e.clipboardData.setData('text/html', html); e.clipboardData.setData('text/plain', text); e.preventDefault(); };
+    document.addEventListener('copy', onCopy);
+    try { return document.execCommand('copy'); } finally { document.removeEventListener('copy', onCopy); }
+  }
+}
+
+function flash(btn, msg) {
+  btn.dataset.label ??= btn.textContent;
+  btn.textContent = msg;
+  $('#live').textContent = msg;
+  clearTimeout(btn._t);
+  btn._t = setTimeout(() => (btn.textContent = btn.dataset.label), 1600);
+}
+
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-copy]');
+  if (!b || !current) return;
+  const k = b.dataset.copy;
+  const ok = k === 'ref'
+    ? await copyRich(`<div dir="${current.lang === 'he' ? 'rtl' : 'ltr'}">${current.html}</div>`, current.text)
+    : await copyRich(esc($('#' + k).textContent), $('#' + k).textContent);
+  flash(b, ok ? 'הועתק ✓' : 'ההעתקה נכשלה');
+});
+
+form.addEventListener('input', e => { e.target.classList.remove('ai', 'web'); $('#demo').hidden = true; render(); });
+form.addEventListener('change', render);
+form.addEventListener('submit', e => e.preventDefault());
+form.addEventListener('click', e => {
+  if (e.target.closest('[data-clear]')) {
+    fill({});
+    form.querySelector('[data-f="family"]').focus();
+    return;
+  }
+  const x = e.target.closest('.x');
+  if (x) {
+    const box = x.parentElement.parentElement;
+    x.parentElement.remove();
+    if (!box.children.length) addPerson(box);
+    render();
+  }
+  const add = e.target.closest('[data-add]');
+  if (add) addPerson($('#' + add.dataset.add), {}, true);
+});
+// Enter never submits; in the last name row it opens a new row.
+form.addEventListener('keydown', e => {
+  if (e.key !== 'Enter' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'BUTTON') return;
+  e.preventDefault();
+  const row = e.target.closest('.person');
+  if (row && !row.nextElementSibling) addPerson(row.parentElement, {}, true);
+});
+form.addEventListener('focusin', e => { $('#ref').dataset.focus = e.target.closest('[data-seg]')?.dataset.seg || ''; });
+form.addEventListener('focusout', () => { $('#ref').dataset.focus = ''; });
+$('#sc').onclick = () => { const t = form.elements.title; t.value = APA.sentenceCase(t.value); render(); t.focus(); };
+// theme: light by default, dark only when chosen
+const root = document.documentElement;
+const syncTheme = () => { $('#theme').textContent = root.dataset.theme === 'dark' ? 'מצב בהיר' : 'מצב כהה'; };
+$('#theme').onclick = () => {
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  store.set('apa7.theme', root.dataset.theme);
+  syncTheme();
+};
+syncTheme();
+
+// tabs
+const tabs = [...document.querySelectorAll('[role="tab"]')];
+function showTab(id) {
+  for (const t of tabs) {
+    const on = t.id === id;
+    t.setAttribute('aria-selected', on);
+    t.tabIndex = on ? 0 : -1;
+    $('#' + t.getAttribute('aria-controls')).hidden = !on;
+  }
+  document.body.dataset.tab = id;
+}
+for (const t of tabs) {
+  t.onclick = () => showTab(t.id);
+  t.onkeydown = e => {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    const other = tabs.find(x => x !== t);
+    showTab(other.id);
+    other.focus();
+  };
+}
+
+// ---- Gemini: extract fields from the first 3 pages; the formatter above still builds the citation ----
+const keyEl = $('#key'), remember = $('#remember'), statusEl = $('#status');
+keyEl.value = store.get('apa7.key') || '';
+remember.checked = !!keyEl.value;
+remember.onchange = () => { if (!remember.checked) store.set('apa7.key', null); };
+let pdfFile = null;
+
+const status = (msg, err = false) => { statusEl.textContent = msg; statusEl.classList.toggle('err', err); };
+function setFile(f) {
+  if (!f) return;
+  if (f.type !== 'application/pdf' && !/\.pdf$/i.test(f.name)) return status('הקובץ צריך להיות PDF.', true);
+  pdfFile = f;
+  $('#fname').textContent = f.name;
+  status('');
+}
+const drop = $('#drop');
+$('#file').onchange = e => setFile(e.target.files[0]);
+drop.ondragover = e => { e.preventDefault(); drop.classList.add('over'); };
+drop.ondragleave = () => drop.classList.remove('over');
+drop.ondrop = e => { e.preventDefault(); drop.classList.remove('over'); setFile(e.dataTransfer.files[0]); };
+
+const loadPdfLib = () => window.PDFLib ? Promise.resolve() : new Promise((ok, fail) => {
+  const s = document.createElement('script');
+  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js';
+  s.onload = ok;
+  s.onerror = () => fail(new Error('pdf-lib'));
+  document.head.append(s);
+});
+function toB64(buf) {
+  const a = new Uint8Array(buf);
+  let s = '';
+  for (let i = 0; i < a.length; i += 0x8000) s += String.fromCharCode(...a.subarray(i, i + 0x8000));
+  return btoa(s);
+}
+async function firstPages(file) {
+  const bytes = await file.arrayBuffer();
+  try {
+    await loadPdfLib();
+    const src = await PDFLib.PDFDocument.load(bytes, { ignoreEncryption: true });
+    if (src.isEncrypted) throw new Error('encrypted');
+    const out = await PDFLib.PDFDocument.create();
+    const idx = [...Array(Math.min(3, src.getPageCount())).keys()];
+    (await out.copyPages(src, idx)).forEach(p => out.addPage(p));
+    return { b64: await out.saveAsBase64(), trimmed: true };
+  } catch {
+    // Encrypted or unusual PDFs can't be cut in the browser; send the file and tell the model to read only its start.
+    if (bytes.byteLength > 15e6) throw new Error('לא ניתן היה לחתוך את הקובץ, והוא גדול מדי לשליחה בשלמותו (מעל 15MB).');
+    return { b64: toB64(bytes), trimmed: false };
+  }
+}
+
+const PERSON = { type: 'object', properties: { family: { type: 'string' }, given: { type: 'string' } }, required: ['family', 'given'] };
+const PEOPLE = { type: 'array', items: PERSON };
+const STR = { type: 'string' };
+const HE_FIELDS = { authors: PEOPLE, editors: PEOPLE, title: STR, journal: STR, book: STR, publisher: STR };
+const SCHEMA = {
+  type: 'object',
+  properties: {
+    type: { type: 'string', enum: ['journal', 'chapter'] }, language: { type: 'string', enum: ['he', 'en'] },
+    authors: PEOPLE, year: STR, title: STR, journal: STR, volume: STR, issue: STR, pages: STR,
+    editors: PEOPLE, book: STR, publisher: STR, doi: STR,
+    he: { type: 'object', properties: HE_FIELDS, required: Object.keys(HE_FIELDS) },
+  },
+  required: ['type', 'language', 'authors', 'year', 'title', 'journal', 'volume', 'issue', 'pages', 'editors', 'book', 'publisher', 'doi', 'he'],
+};
+const HE_RULE = `translate the title and the book title into Hebrew; translate the journal name (use its established Hebrew name if one exists); transliterate people's names and the publisher into Hebrew letters (e.g. family "Smith", given "John" → family "סמית'", given "ג'ון").`;
+const PROMPT = `Extract bibliographic metadata for an APA 7 reference from the first pages of this scholarly document (a journal article or a chapter in an edited book).
+Use only what is printed in the document or its file name. Use "" (or []) for anything not found. Never guess.
+- type: "journal" for a journal article, "chapter" for a chapter in an edited book.
+- language: "he" if the article itself is written in Hebrew, otherwise "en". Take every field in the article's own language (for a Hebrew article ignore English translations of the title, names or journal).
+- authors / editors: every person, in printed order. family = surname, given = given names exactly as printed. For an organization as author put its full name in family and leave given "".
+- year: the publication year of the article (a Hebrew year such as תשפ"ד if that is what is printed).
+- title: the full article or chapter title, including a subtitle after a colon. For English titles use APA sentence case (capitalize only the first word, the first word after a colon, proper nouns and acronyms).
+- journal: the full journal name, no abbreviations. volume, issue: as printed, numbers only. pages: the article's page range like "45-67", or "Article <number>" if it uses an article number instead of pages.
+- book, publisher: for chapters only.
+- doi: the DOI only (e.g. 10.1037/abc0000123). If there is no DOI, the article's URL if printed, else "".
+- he: only when the article is NOT in Hebrew, a Hebrew version of its text fields for a Hebrew reference list: ${HE_RULE} For a Hebrew article leave every field of he empty.`;
+
+// Fields a complete reference needs; whatever is still empty after the PDF goes to a web search.
+const NEED = { journal: ['authors', 'year', 'title', 'journal', 'volume', 'issue', 'pages', 'doi'], chapter: ['authors', 'year', 'title', 'editors', 'book', 'publisher', 'pages', 'doi'] };
+const LABELS = { authors: 'מחברים', year: 'שנה', title: 'כותרת', journal: 'כתב העת', volume: 'כרך', issue: 'גיליון', pages: 'עמודים', doi: 'DOI', editors: 'עורכים', book: 'שם הספר', publisher: 'הוצאה לאור' };
+const isEmpty = v => (Array.isArray(v) ? !v.some(p => p && String((p.family || '') + (p.given || '')).trim()) : !String(v ?? '').trim());
+function parseJson(text) {
+  try { return JSON.parse(text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1)); } catch { return null; }
+}
+
+async function callGemini(key, model, body) {
+  let res;
+  try {
+    res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
+      body: JSON.stringify(body),
+    });
+  } catch {
+    throw new Error('אין חיבור ל-Gemini. בדקו את החיבור לאינטרנט ונסו שוב.');
+  }
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const m = data.error?.message || '';
+    if (res.status === 429) throw new Error('המפתח חרג ממכסת השימוש של המודל הזה. נסו שוב בעוד דקה או בחרו מודל אחר.');
+    if (res.status === 404) throw new Error(`המודל "${model}" לא נמצא. בחרו מודל אחר.`);
+    if (/api key/i.test(m) || res.status === 401 || res.status === 403) throw new Error('המפתח לא תקין או שאין לו הרשאה למודל הזה.');
+    throw new Error('Gemini החזיר שגיאה: ' + (m || res.status));
+  }
+  return (data.candidates?.[0]?.content?.parts || []).filter(p => !p.thought).map(p => p.text || '').join('');
+}
+
+// Stage 1: the first pages + the file name. Gemma models have no JSON mode, so they get the schema in the prompt.
+async function extractFromPdf(key, model, b64, trimmed, fileName) {
+  const gemma = model.startsWith('gemma');
+  const text = await callGemini(key, model, {
+    contents: [{ parts: [
+      { inlineData: { mimeType: 'application/pdf', data: b64 } },
+      { text: PROMPT +
+        `\nThe file name is ${JSON.stringify(fileName)}. It may hint at the authors, year or title: use it to confirm what the pages show or to fill a gap they leave.` +
+        (trimmed ? '' : '\nRead only the first 3 pages of the document.') +
+        (gemma ? `\nReply with one JSON object only, matching this JSON Schema: ${JSON.stringify(SCHEMA)}` : '') },
+    ] }],
+    ...(gemma ? {} : { generationConfig: { responseMimeType: 'application/json', responseJsonSchema: SCHEMA } }),
+  });
+  const g = parseJson(text);
+  if (!g) throw new Error('לא התקבלו פרטים מהקובץ. נסו שוב, בחרו מודל אחר, או מלאו את הטופס ידנית.');
+  return g;
+}
+
+// Stage 2: only if fields are still empty. Text only (the PDF is not sent again) + Google Search; fills empty fields only.
+async function completeFromWeb(key, model, g) {
+  const missing = NEED[g.type === 'chapter' ? 'chapter' : 'journal'].filter(k => isEmpty(g[k]));
+  if (!missing.length || isEmpty(g.title)) return [];
+  const { he, ...known } = g;
+  const wantHe = g.language === 'en';
+  const text = await callGemini(key, model, {
+    contents: [{ parts: [{ text: `Complete APA 7 reference metadata for one specific scholarly ${g.type === 'chapter' ? 'book chapter' : 'journal article'}.
+Known metadata (JSON): ${JSON.stringify(known)}
+Missing fields: ${missing.join(', ')}.
+Use Google Search to find the missing fields for this exact work: match the title and the authors. Prefer the DOI record (doi.org, Crossref), the publisher's or the journal's page, or a library catalog. Fill a field only when a source confirms it for this exact work, otherwise "". Some works have no issue number or DOI.
+Reply with one JSON object only, no prose, with exactly these keys: ${[...missing, ...(wantHe ? ['he'] : [])].join(', ')}.
+authors and editors are arrays of {"family": "...", "given": "..."}; doi is the bare DOI (10.xxxx/...); pages like "45-67".` +
+      (wantHe ? `\nhe: an object with Hebrew versions of the text fields you filled (keys among ${Object.keys(HE_FIELDS).join(', ')}): ${HE_RULE}` : '') }] }],
+    tools: [{ google_search: {} }],
+  });
+  const found = parseJson(text) || {};
+  const got = missing.filter(k => !isEmpty(found[k]) && (Array.isArray(g[k]) ? Array.isArray(found[k]) : typeof found[k] !== 'object'));
+  for (const k of got) g[k] = found[k];
+  if (wantHe && found.he && typeof found.he === 'object') {
+    g.he = { ...(g.he || {}) };
+    for (const [k, v] of Object.entries(found.he)) if (k in HE_FIELDS && isEmpty(g.he[k]) && !isEmpty(v)) g.he[k] = v;
+  }
+  return got;
+}
+
+// ---- apply: Gemini's fields → the same form; the formatter still builds the citation ----
+let lastAi = null; // { g, web: [field keys from the web], webError, he: show the Hebrew version }
+const canTranslate = g => g.language === 'en' && g.he && !isEmpty(g.he.title);
+
+function toRaw(g, useHe) {
+  const t = (useHe && g.he) || {};
+  const pick = k => (isEmpty(t[k]) ? g[k] : t[k]);
+  const chapter = g.type === 'chapter';
+  const r = {
+    type: chapter ? 'chapter' : 'journal', authors: pick('authors'), editors: pick('editors'), year: g.year, title: pick('title'),
+    journal: pick('journal'), volume: g.volume, issue: g.issue, book: pick('book'), publisher: pick('publisher'), link: g.doi,
+    [chapter ? 'cpages' : 'pages']: g.pages,
+  };
+  const lang = useHe ? 'he' : g.language;
+  r.lang = (lang === 'he' || lang === 'en') && lang !== APA.detectLang({ ...r, lang: '' }) ? lang : '';
+  return r;
+}
+
+function showAi() {
+  const { g, web, webError, he } = lastAi;
+  fill(toRaw(g, he), 'ai');
+  const sel = { authors: '#authors input', editors: '#editors input', doi: '[name="link"]', pages: `[name="${g.type === 'chapter' ? 'cpages' : 'pages'}"]` };
+  for (const k of web) form.querySelectorAll(sel[k] || `[name="${k}"]`).forEach(el => el.classList.replace('ai', 'web'));
+  $('#banner-text').textContent = 'הפרטים מולאו מתוך הקובץ' + (he ? ' ותורגמו לעברית' : '') + '. ' +
+    (web.length ? `מהרשת הושלמו: ${web.map(k => LABELS[k]).join(', ')} (מסומנים בכתום). ` : '') +
+    (webError ? 'ההשלמה מהרשת לא הצליחה במודל הזה. ' : '') + 'בדקו את השדות לפני ההעתקה.';
+  $('#flip').hidden = !canTranslate(g);
+  $('#flip').textContent = he ? 'להציג במקור באנגלית' : 'לתרגם לעברית';
+}
+$('#flip').onclick = () => { lastAi.he = !lastAi.he; showAi(); };
+
+// model picker: the list, or any other model id
+const modelSel = $('#model'), customModel = $('#custom-model');
+modelSel.value = store.get('apa7.model') ?? 'gemini-flash-latest';
+if (modelSel.selectedIndex < 0) modelSel.value = 'gemini-flash-latest';
+customModel.value = store.get('apa7.custom-model') || '';
+const syncModel = () => { $('#custom-field').hidden = modelSel.value !== ''; };
+modelSel.onchange = () => { store.set('apa7.model', modelSel.value); syncModel(); if (!modelSel.value) customModel.focus(); };
+customModel.oninput = () => store.set('apa7.custom-model', customModel.value.trim());
+syncModel();
+const chosenModel = () => (modelSel.value || customModel.value.trim()).replace(/^models\//, '');
+
+$('#extract').onclick = async () => {
+  const key = keyEl.value.trim(), model = chosenModel();
+  if (!key) { status('הדביקו מפתח Gemini API.', true); return keyEl.focus(); }
+  if (!model) { status('הקלידו מזהה מודל.', true); return customModel.focus(); }
+  if (!pdfFile) return status('בחרו קובץ PDF.', true);
+  store.set('apa7.key', remember.checked ? key : null);
+  const btn = $('#extract');
+  btn.disabled = true;
+  try {
+    status('מכין את שלושת העמודים הראשונים…');
+    const { b64, trimmed } = await firstPages(pdfFile);
+    status(trimmed ? 'Gemini קורא את העמודים…' : 'לא ניתן היה לחתוך את הקובץ, לכן הוא נשלח בשלמותו ו-Gemini יקרא רק את תחילתו…');
+    const g = await extractFromPdf(key, model, b64, trimmed, pdfFile.name);
+    let web = [], webError = false;
+    status('משלים פרטים חסרים מהרשת…');
+    try { web = await completeFromWeb(key, model, g); } catch { webError = true; }
+    lastAi = { g, web, webError, he: canTranslate(g) };
+    showAi();
+    showTab('t-manual');
+    window.scrollTo({ top: 0 });
+    status('');
+  } catch (err) {
+    status(err.message, true);
+  } finally {
+    btn.disabled = false;
+  }
+};
+
+let draft = null;
+try { draft = JSON.parse(store.get('apa7.draft')); } catch {}
+fill(draft || EXAMPLE, draft ? '' : 'demo');
+
+// Opening animation: the example citation as a poster, with the site name in the title's place.
+// The strips are the example's real segments (from the formatter), so the intro shows what the tool does.
+(function intro() {
+  const el = $('#intro');
+  if (root.classList.contains('no-intro')) return el.remove();
+  const PARTS = { authors: ['מחברים', '#FF7A6B', -1.6], date: ['שנה', '#7CC4FF', 1.2], source: ['מקור', '#4FD6B8', 1.4] };
+  const seg = Object.fromEntries(APA.format(toApa(EXAMPLE)).segments.map(s => [s.key, s.html]));
+  const strip = (key, d) => {
+    const [label, color, tilt] = PARTS[key];
+    return `<span class="intro-row" style="--c:${color};--d:${d}ms"><span class="intro-lbl">${label}</span><span class="intro-rib" style="--r:${tilt}deg">${seg[key]}</span></span>`;
+  };
+  const word = (text, d, tilt, big = false) =>
+    `<span class="intro-rib intro-word${big ? ' big' : ''}" style="--c:#FFE14D;--d:${d}ms;--r:${tilt}deg"${big ? ' dir="ltr"' : ''}>${text}</span>`;
+  el.firstElementChild.innerHTML =
+    `<div class="intro-top" aria-hidden="true">${strip('authors', 0)}${strip('date', 120)}</div>` +
+    `<h2 class="intro-title">${word('APA 7.', 320, -1.5, true)}<span class="intro-line">${word('מהיר.', 620, 0.8)}${word('אוטומטי.', 740, -0.6)}${word('עברית.', 860, 1)}</span></h2>` +
+    `<div class="intro-bottom">${strip('source', 1040)}<p class="intro-brand" style="--d:1200ms">בונה הפניות לרשימת המקורות</p><button type="button" class="intro-go" style="--d:1500ms">המשך</button></div>`;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let done = false;
+  const finish = fast => {
+    if (done) return;
+    done = true;
+    el.classList.add(fast ? 'out-fast' : 'out');
+    setTimeout(() => el.remove(), fast ? 260 : 780);
+  };
+  // Start once the fonts are in (max 700ms), so nothing reflows mid-sweep.
+  // The final screen stays until "המשך" (or Enter/Escape); the button takes focus once it has appeared.
+  Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 700))]).then(() => {
+    el.classList.add('go');
+    setTimeout(() => !done && el.querySelector('.intro-go').focus({ preventScroll: true }), reduce ? 600 : 1800);
+  });
+  el.querySelector('.intro-go').onclick = () => finish(false);
+  el.addEventListener('keydown', e => { if (e.key === 'Escape') finish(true); });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && !done) finish(true); });
+})();
+</script>
+</body>
+</html>
