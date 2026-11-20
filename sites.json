@@ -1,26 +1,32 @@
 [
- {
-  "slug": "morphology-course-lesson-2-nadon-nidon",
-  "title": "מצגת שיעור שני: נדון ונידון",
-  "context": "קורס תורת הצורות",
-  "added": "2026-10-25"
- },
- {
-  "slug": "rambam-binah-daily",
-  "title": "בינה ברמב\"ם היומי: אפליקציית תרגול לפרק היומי",
-  "context": "פרויקט בינה ברמב\"ם היומי",
-  "added": "2026-11-02"
- },
- {
-  "slug": "academic-writing-apa7-citation-builder",
-  "title": "APA 7. מהיר. אוטומטי. עברית.: בונה הפניות לרשימת המקורות",
-  "context": "כלי לכתיבה אקדמית",
-  "added": "2026-11-13"
- },
- {
-  "slug": "brand-book-skills",
-  "title": "סקילים לספר מותג: יצירה ושימוש (להורדה)",
-  "context": "סקילים ל-Claude",
-  "added": "2026-11-20"
- }
+  {
+    "slug": "morphology-course-lesson-2-nadon-nidon",
+    "title": "מצגת שיעור שני: נדון ונידון",
+    "context": "קורס תורת הצורות",
+    "added": "2026-10-25"
+  },
+  {
+    "slug": "rambam-binah-daily",
+    "title": "בינה ברמב\"ם היומי: אפליקציית תרגול לפרק היומי",
+    "context": "פרויקט בינה ברמב\"ם היומי",
+    "added": "2026-11-02"
+  },
+  {
+    "slug": "academic-writing-apa7-citation-builder",
+    "title": "APA 7. מהיר. אוטומטי. עברית.: בונה הפניות לרשימת המקורות",
+    "context": "כלי לכתיבה אקדמית",
+    "added": "2026-11-13"
+  },
+  {
+    "slug": "brand-book-skills",
+    "title": "סקילים לספר מותג: יצירה ושימוש (להורדה)",
+    "context": "סקילים ל-Claude",
+    "added": "2026-11-20"
+  },
+  {
+    "slug": "royo-personal-tools-showcase",
+    "title": "ROYO: הפיתוחים והכלים של שלו בנרויו",
+    "context": "אתר תדמית אישי",
+    "added": "2026-11-20"
+  }
 ]
