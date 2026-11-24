@@ -17,9 +17,9 @@
   if (!match) {
     label.textContent = 'דף עזר לתוסף. אין כאן קובץ להורדה.';
   } else {
-    var url = 'https://script.google.com/macros/s/' + match[1] + '/dev?k=' + match[2];
+    var url = 'https://script.google.com/macros/s/' + match[1] + '/exec?k=' + match[2];
     // אם הדף לא נטען במסגרת (למשל עוגיות צד שלישי חסומות), עוברים אליו ישירות
-    var fallback = setTimeout(function () { location.replace(url); }, 10000);
+    var fallback = setTimeout(function () { location.replace(url); }, 6000);
     addEventListener('message', function (e) {
       if (!/^https:\/\/[\w-]+\.googleusercontent\.com$/.test(e.origin)) return;
       if (e.data === 'quick-export-missing') { clearTimeout(fallback); label.textContent = 'הקובץ כבר לא בזיכרון. חזור למסמך וייצא שוב.'; return; }
