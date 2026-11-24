@@ -28,5 +28,11 @@
     "title": "ROYO: הפיתוחים והכלים של שלו בנרויו",
     "context": "אתר תדמית אישי",
     "added": "2026-11-20"
+  },
+  {
+    "slug": "docs-quick-export-download-helper",
+    "title": "דף עזר: הורדת קובץ מהתוסף ייצוא מהיר",
+    "context": "תוסף ייצוא מהיר ל-Google Docs",
+    "added": "2026-11-24"
   }
 ]

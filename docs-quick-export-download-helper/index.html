@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>הורדת קובץ מהתוסף ייצוא מהיר</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font: 18px system-ui, sans-serif; display: grid; place-items: center; min-height: 90vh; margin: 0 16px; }
+  iframe { position: absolute; width: 1px; height: 1px; border: 0; opacity: 0; }
+</style>
+<p id="status" role="status">מוריד את הקובץ…</p>
+<script>
+  // הכתובת אחרי # : מזהה הסקריפט / מפתח הקובץ. שום תוכן לא עובר דרך הדף הזה
+  var label = document.getElementById('status');
+  var match = /^#([\w-]{20,100})\/([0-9a-f-]{36})$/.exec(location.hash);
+  if (!match) {
+    label.textContent = 'דף עזר לתוסף. אין כאן קובץ להורדה.';
+  } else {
+    var url = 'https://script.google.com/macros/s/' + match[1] + '/dev?k=' + match[2];
+    // אם הדף לא נטען במסגרת (למשל עוגיות צד שלישי חסומות), עוברים אליו ישירות
+    var fallback = setTimeout(function () { location.replace(url); }, 10000);
+    addEventListener('message', function (e) {
+      if (!/^https:\/\/[\w-]+\.googleusercontent\.com$/.test(e.origin)) return;
+      if (e.data === 'quick-export-missing') { clearTimeout(fallback); label.textContent = 'הקובץ כבר לא בזיכרון. חזור למסמך וייצא שוב.'; return; }
+      if (e.data !== 'quick-export-downloaded') return;
+      clearTimeout(fallback);
+      label.textContent = 'הקובץ ירד, אפשר לסגור את הלשונית.';
+      setTimeout(function () { window.close(); }, 1500);
+    });
+    var frame = document.createElement('iframe');
+    frame.title = 'הורדה';
+    frame.src = url;
+    document.body.appendChild(frame);
+  }
+</script>
+</html>
