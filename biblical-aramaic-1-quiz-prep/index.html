@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ארמית מקראית א׳ · הכנה אינטראקטיבית לבוחן</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700&family=Noto+Sans+Hebrew:wght@400;500;700&family=Rubik:wght@500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="progress-bar" id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- Floating Pill Navigation -->
+  <header class="top-bar" role="banner">
+    <div class="brand-title">
+      <svg class="sparkle-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 0L14.8 9.2L24 12L14.8 14.8L12 24L9.2 14.8L0 12L9.2 9.2Z" fill="#8C50FB"/>
+      </svg>
+      <span>ארמית מקראית א׳</span>
+    </div>
+
+    <nav class="main-tabs" role="tablist" aria-label="ניווט ראשי">
+      <button class="tab-btn active" role="tab" aria-selected="true" data-tab="learn">מפת החומר</button>
+      <button class="tab-btn" role="tab" aria-selected="false" data-tab="practice">מערכת תרגול (80+ שאלות)</button>
+      <button class="tab-btn" role="tab" aria-selected="false" data-tab="quizzes">12 בחנים לפי רמות</button>
+    </nav>
+
+    <button class="btn btn-primary btn-sm" id="quickQuizBtn">התחל בוחן קל</button>
+  </header>
+
+  <main class="wrap">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-card reveal">
+        <svg class="hero-sparkle s-top" width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 0L14.8 9.2L24 12L14.8 14.8L12 24L9.2 14.8L0 12L9.2 9.2Z" fill="#8C50FB"/>
+        </svg>
+        <svg class="hero-sparkle s-bottom" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 0L14.8 9.2L24 12L14.8 14.8L12 24L9.2 14.8L0 12L9.2 9.2Z" fill="#F2AAAA"/>
+        </svg>
+
+        <div class="kicker">
+          <span class="kicker-badge">שיעורים א׳–ו׳ · מעודכן למייל המרצה</span>
+          <span>ד״ר אוהד אבודרהם · הכנה מלאה לבוחן</span>
+        </div>
+        <h1>נטיית השם, המשקלים והכינויים החבורים.</h1>
+        <p class="lead">
+          טבלאות השוואה, תרשימי זרימה ויזואליים, מעבדות נטייה, מערכת תרגול עם כתיבה עצמית וזיכרון טעויות — ו־12 בחנים ב־4 רמות קושי (3 בחנים שונים לכל רמה).
+        </p>
+
+        <div class="hero-bubbles" aria-label="מיקוד הבוחן לפי מייל המרצה">
+          <div class="chat-bubble bubble-1">
+            <span class="bubble-label">חלק א׳ בבוחן</span>
+            <span><strong>טבלת נטיית השם:</strong> נפרד, נסמך ומיודע (לפי טבלאות תקציר שיעור ה׳ ותרגילי הבית)</span>
+          </div>
+          <div class="chat-bubble bubble-2">
+            <span class="bubble-label">חלק ב׳ בבוחן</span>
+            <span><strong>20 צורות מתרגול הכיתה:</strong> פירוש שמות עם כינויים חבורים (<span class="aramaic">אֶצְבְּעָתַנָא</span> עד <span class="aramaic">תַּרְעֵהּ</span>)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 1: LEARN -->
+    <section id="tab-learn" class="tab-panel active" role="tabpanel">
+      <div class="topic-pills" role="tablist" aria-label="נושאי הלימוד">
+        <button class="pill-btn active" data-topic="overview">מבנה הבוחן ושיטת פיצוח</button>
+        <button class="pill-btn" data-topic="nouns">נטיית השם והסמיכות</button>
+        <button class="pill-btn" data-topic="suffixes">הכינויים החבורים + 20 המילים</button>
+        <button class="pill-btn" data-topic="phonology">משקלים, סגוליים והגה</button>
+        <button class="pill-btn" data-topic="pronouns">כינויי גוף ורמז</button>
+        <button class="pill-btn" data-topic="lexicon">לקסיקון מקיף א׳–ו׳</button>
+      </div>
+
+      <!-- Topic 1: Overview -->
+      <div class="topic-content active" id="topic-overview">
+        <div class="grid grid-2">
+          <article class="card card-pastel-lavender reveal">
+            <div class="card-tag">מיקוד רשמי מהמייל של אוהד</div>
+            <h3>מפת חלקי הבוחן</h3>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr><th>חלק</th><th>מה נדרש בפועל</th><th>מקור מדויק לחזרה</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>חלק א׳</td>
+                    <td>השלמת טבלת נפרד / נסמך / מיודע (עם ניקוד מלא)</td>
+                    <td>טבלאות תקציר שיעור ה׳ + שני תרגילי הבית</td>
+                  </tr>
+                  <tr>
+                    <td>חלק ב׳</td>
+                    <td>תרגום לעברית של שמות עם כינויים חבורים</td>
+                    <td>חופף ל־<strong>20 המילים של תרגול הכיתה</strong> (שיעור ו׳)</td>
+                  </tr>
+                  <tr>
+                    <td>דגשים</td>
+                    <td>קמץ קיים, חיטוף פתח פתוח, סגוליים, עיצור מול תנועה</td>
+                    <td>מופיעים בכל 4 הבחנים ובמערכת התרגול</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="card card-pastel-eggshell reveal">
+            <div class="card-tag">4 צירי ההבחנה</div>
+            <h3>טבלת כללי הברזל בניתוח צורה</h3>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr><th>המשתנה</th><th>הכלל בארמית</th><th>דוגמה מכרעת</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>קמץ בגזע</td><td>קמץ בארמית קיים לעולם ואינו נחטף</td><td class="aramaic">טָב ← טָבִין, שְׁמָהָתְכֹם</td></tr>
+                  <tr><td>תנועה קצרה</td><td>נחטפת בהברה פתוחה לפני הטעם</td><td class="aramaic">חַיָּבַת ← חַיָּבְתָא, בַּר ← בְּרָא</td></tr>
+                  <tr><td>סיומת כינוי</td><td>לפי המין ה<strong>דקדוקי</strong> (עיצור מול תנועה)</td><td class="aramaic">בְּנָתֵהּ / אַרְיָוָתִי (רבות = עיצור!)</td></tr>
+                  <tr><td>משקל סגולי</td><td>הבסיס הקדום מתגלה ביידוע ובכינוי</td><td class="aramaic">כְּתַל ← כֻּתְלְהֹון, סְפַר ← סִפְרֹוהִי</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+
+        <!-- Visual Decision Flowchart (Pure HTML/CSS) -->
+        <article class="card mt-24 reveal">
+          <div class="card-tag">תרשים זרימה ויזואלי</div>
+          <h3>אלגוריתם פיצוח כל מילה בבוחן</h3>
+          <div class="vflow-tree mt-16">
+            <div class="vflow-root">מילה בארמית מקראית (שם עצם / תואר)</div>
+            <div class="vflow-connector-down" aria-hidden="true">↓</div>
+            <div class="vflow-branches-2">
+              <!-- Branch A: Noun State -->
+              <div class="vflow-branch box-lavender">
+                <div class="vflow-badge">מסלול א׳ · טבלת נטיית השם</div>
+                <h4>איזה בסיס עומד מולנו?</h4>
+                <div class="vflow-steps">
+                  <div class="vstep"><strong>① בסיס קבוע:</strong> תנועה ארוכה או הברה סגורה בדגש ← הבסיס לא משתנה (<span class="aramaic">טָב, שַׁפִּיר, קַדִּישׁ, עִדָּן</span>)</div>
+                  <div class="vstep"><strong>② בסיס משתנה / סגולי:</strong> ביידוע חוזר הבסיס הקדום או נחטפת תנועה קצרה (<span class="aramaic">מֶלֶךְ ← מַלְכָּא, נְהַר ← נַהֲרָא</span>)</div>
+                  <div class="vstep"><strong>③ בסיס מתחלף / סיומת מיוחדת:</strong> שורש שונה ברבים (<span class="aramaic">בַּר ← בְּנִין, בַּי ← בָּתִּין</span>) או סיומת <span class="aramaic">-וּ / -ָי</span> (<span class="aramaic">מַלְכוּ ← מַלְכְוָן</span>)</div>
+                </div>
+              </div>
+
+              <!-- Branch B: Possessive Suffix -->
+              <div class="vflow-branch box-cornflower">
+                <div class="vflow-badge">מסלול ב׳ · כינויי שייכות חבורים</div>
+                <h4>במה מסתיים הבסיס הדקדוקי בנסמך?</h4>
+                <div class="vflow-split-2">
+                  <div class="vsub-card">
+                    <span class="vsub-tag tag-purple">דגם א׳: עיצור</span>
+                    <p><strong>יחיד, יחידה ורבות (<span class="aramaic">-ָת</span>)</strong></p>
+                    <p class="aramaic">ִ-י, ָ-ךְ, ֵ-הּ, ַ-הּ, ַ-נָא, -כֹם/כֹון, -הֹם/הֹון, -הֵון</p>
+                    <p class="tiny-muted">דוגמה: <span class="aramaic">תַּרְעֵהּ, בְּנָתֵהּ, אַרְיָוָתִי</span></p>
+                  </div>
+                  <div class="vsub-card">
+                    <span class="vsub-tag tag-dark">דגם ב׳: תנועה</span>
+                    <p><strong>רבים (<span class="aramaic">-ֵי</span>) וזוגי + אַב/אַח ביחיד</strong></p>
+                    <p class="aramaic">ַ-י, ָ-יְךְ, ֹ-והִי, ַ-יַּהּ, ַ-יְנָא, ֵ-יכֹון, ֵ-יהֹון, ֵ-יהֵון</p>
+                    <p class="tiny-muted">דוגמה: <span class="aramaic">בְּנֹוהִי, דְּרָעֹוהִי, טִפְרַיַּהּ</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Topic 2: Nouns -->
+      <div class="topic-content" id="topic-nouns">
+        <div class="card reveal">
+          <div class="card-header-row">
+            <div>
+              <div class="card-tag">שיעור ה׳ + תרגילי הבית</div>
+              <h3>טבלת הצורנים וקבוצות הנטייה</h3>
+              <p class="muted">בחרו קבוצת דגמים ולחצו על כל תא בטבלה כדי לראות הסבר מפורט על התנועות והדגשים.</p>
+            </div>
+            <div class="segmented" id="nounGroupSelector">
+              <button class="seg-btn active" data-group="morphemes">צורנים</button>
+              <button class="seg-btn" data-group="unchanging">בסיס קבוע</button>
+              <button class="seg-btn" data-group="changing">בסיס משתנה</button>
+              <button class="seg-btn" data-group="irregular">מתחלפים (בַּר/בַּי)</button>
+              <button class="seg-btn" data-group="special">סיומות (-וּ / -ָי)</button>
+            </div>
+          </div>
+
+          <div class="table-wrap" id="nounTableContainer"></div>
+          <div class="cell-inspector" id="nounCellInspector">
+            לחצו על משבצת בטבלה כדי לראות הסבר על הצורן ושינויי הניקוד.
+          </div>
+        </div>
+
+        <!-- Visual Construct State Comparison Diagram -->
+        <article class="card mt-24 reveal">
+          <div class="card-tag">תחביר השייכות · דיאגרמת השוואה</div>
+          <h3>שלושת מבני הסמיכות בארמית מקראית</h3>
+          <div class="construct-diagram-grid mt-16">
+            <div class="construct-box box-cornflower">
+              <div class="construct-num">1</div>
+              <h4>סמיכות חבורה / דבוקה</h4>
+              <div class="formula-row">
+                <span class="f-pill">שם בנסמך</span>
+                <span class="f-plus">+</span>
+                <span class="f-pill">סומך</span>
+              </div>
+              <div class="construct-examples">
+                <div><span class="aramaic">בַּר אֱלָהִין</span> ← בן אלוהים</div>
+                <div><span class="aramaic">חֵיוַת בָּרָא</span> ← חיית השדה</div>
+                <div><span class="aramaic">בֵּית סִפְרַיָּא</span> ← בית הספרים</div>
+              </div>
+            </div>
+
+            <div class="construct-box box-apricot">
+              <div class="construct-num">2</div>
+              <h4>סמיכות פרוקה</h4>
+              <div class="formula-row">
+                <span class="f-pill">שם (נפרד/מיודע)</span>
+                <span class="f-plus">+</span>
+                <span class="f-pill f-accent">דִּי</span>
+                <span class="f-plus">+</span>
+                <span class="f-pill">סומך</span>
+              </div>
+              <div class="construct-examples">
+                <div><span class="aramaic">שְׁבִיבִין דִּי נוּר</span> ← להבות של אש</div>
+                <div><span class="aramaic">מִלְּתָא דִי מַלְכָּה</span> ← הדבר של המלך</div>
+                <div><span class="aramaic">גֻּבָּא דִי אַרְיָוָתָא</span> ← הגוב של האריות</div>
+              </div>
+            </div>
+
+            <div class="construct-box box-lavender">
+              <div class="construct-num">3</div>
+              <h4>סמיכות פרוקה עם כינוי מקדים (פרולפטי)</h4>
+              <div class="formula-row">
+                <span class="f-pill">שם + כינוי חבור</span>
+                <span class="f-plus">+</span>
+                <span class="f-pill f-accent">דִּי</span>
+                <span class="f-plus">+</span>
+                <span class="f-pill">סומך מיודע</span>
+              </div>
+              <div class="construct-examples">
+                <div><span class="aramaic">שְׁמֵהּ דִּי אֱלָהָא</span> ← שמו של האלוהים</div>
+                <div><span class="aramaic">עַבְדֹוהִי דִּי אֱלָהָא</span> ← עבדיו של האל</div>
+                <div><span class="aramaic">שָׁרְשֹׁוהִי דִּי אִילָנָא</span> ← שורשיו של האילן</div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Topic 3: Suffixes + 20 Exam Words -->
+      <div class="topic-content" id="topic-suffixes">
+        <div class="card reveal">
+          <div class="card-header-row">
+            <div>
+              <div class="card-tag">שיעור ו׳ · מעבדה אינטראקטיבית</div>
+              <h3>מחבר הכינויים החבורים</h3>
+              <p class="muted">בחרו שם עצם וגוף כדי לראות את הצורה המנוקדת, התרגום והנימוק המורפולוגי.</p>
+            </div>
+            <div class="segmented" id="corpusToggle">
+              <button class="seg-btn active" data-corpus="daniel">ספר דניאל (<span dir="ltr">-כֹון / -הֹון</span>)</button>
+              <button class="seg-btn" data-corpus="ezra">ספר עזרא (<span dir="ltr">-כֹם / -הֹם</span>)</button>
+            </div>
+          </div>
+
+          <div class="builder-grid">
+            <div class="builder-controls">
+              <label class="field-label">1. בחרו מילת בסיס:</label>
+              <div class="chip-group" id="builderWordChips"></div>
+
+              <label class="field-label mt-16">2. בחרו גוף:</label>
+              <div class="chip-group" id="builderPersonChips"></div>
+            </div>
+
+            <div class="builder-result" id="builderResult"></div>
+          </div>
+        </div>
+
+        <div class="grid grid-2 mt-24">
+          <article class="card reveal">
+            <div class="card-tag">טבלה מרכזת</div>
+            <h3>טבלת הכינויים החבורים המלאה</h3>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr><th>גוף</th><th>דגם א׳: אחר עיצור (יחיד/יחידה/רבות)</th><th>דגם ב׳: אחר תנועה (רבים/זוגי)</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>מדבר</td><td class="aramaic">ִ-י</td><td class="aramaic">ַ-י</td></tr>
+                  <tr><td>נוכח</td><td class="aramaic">ָ-ךְ</td><td class="aramaic">ָ-יְךְ <span class="muted">(קרי āḵ-)</span></td></tr>
+                  <tr><td>נוכחת (מחוץ למקרא)</td><td class="aramaic">-כִי</td><td class="aramaic">ֵ-יכִי</td></tr>
+                  <tr><td>נסתר</td><td class="aramaic">ֵ-הּ</td><td class="aramaic">ֹ-והִי <span class="muted">(מלעיל)</span></td></tr>
+                  <tr><td>נסתרת</td><td class="aramaic">ַ-הּ</td><td class="aramaic">ַ-יַּהּ <span class="muted">(קרי ah-)</span></td></tr>
+                  <tr><td>מדברים</td><td class="aramaic">ַ-נָא <span class="muted">(מלעיל)</span></td><td class="aramaic">ַ-יְנָא <span class="muted">(קרי anā-)</span></td></tr>
+                  <tr><td>נוכחים</td><td class="aramaic">-כֹם / -כֹון</td><td class="aramaic">ֵ-יכֹם / ֵ-יכֹון</td></tr>
+                  <tr><td>נסתרים</td><td class="aramaic">-הֹם / -הֹון</td><td class="aramaic">ֵ-יהֹם / ֵ-יהֹון</td></tr>
+                  <tr><td>נסתרות</td><td class="aramaic">-הֵון <span class="muted">(קרי hēn-)</span></td><td class="aramaic">ֵ-יהֵון <span class="muted">(קרי ēhēn-)</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="card card-pastel-flamingo reveal">
+            <div class="card-tag">מלכודות בוחן נפוצות</div>
+            <h3>דיאגרמת הבדלה: מתי יו״ד ומתי בלי יו״ד?</h3>
+            <div class="trap-cards mt-16">
+              <div class="trap-row">
+                <div class="trap-title">מלכודת 1: שמות זכר שנוטים ברבות (<span class="aramaic">-ָת</span>)</div>
+                <p><span class="aramaic">אַרְיָוָתִי</span> (אריותיי), <span class="aramaic">שְׁמָהָתְכֹם</span> (שמותיכם), <span class="aramaic">אֲבָהָתִי</span> (אבותיי) ← המין ה<strong>דקדוקי</strong> הוא נקבה רבות (מסתיים בעיצור <span class="aramaic">ת</span>!), ולכן מקבלים <strong>דגם א׳ ללא יו״ד</strong>!</p>
+              </div>
+              <div class="trap-row">
+                <div class="trap-title">מלכודת 2: הבחנה בין יחיד לרבים בנוכח ובנסתרת</div>
+                <p>בכתיב היו״ד מבחינה בין יחיד לרבים גם כשההגייה במסורת הקרי זהה: <span class="aramaic">קַרְנָךְ</span> (קרנךָ - יחיד) לעומת <span class="aramaic">קַרְנָיְךְ</span> (קרניךָ - זוגי/רבים); <span class="aramaic">חֵיוָתַהּ</span> (חיותיהָ - רבות בקמץ!) לעומת <span class="aramaic">טִפְרַיַּהּ</span> (ציפורניהָ - רבים בדגם ב׳).</p>
+              </div>
+              <div class="trap-row">
+                <div class="trap-title">מלכודת 3: בְּנֹוהִי מול בְּנָתֵהּ</div>
+                <p><span class="aramaic">בְּנֹוהִי</span> = בניו (בסיס <span class="aramaic">בְּנֵי-</span> בתנועה ← <span class="aramaic">-ֹוהִי</span>), אבל <span class="aramaic">בְּנָתֵהּ</span> = בנותיו (בסיס <span class="aramaic">בְּנָת-</span> בעיצור ← <span class="aramaic">-ֵהּ</span>)!</p>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Full Table of the 20 Classroom Exam Words -->
+        <article class="card mt-24 reveal">
+          <div class="card-tag">חובה לבוחן · כל 20 המילים מתרגול הכיתה (מייל המרצה)</div>
+          <h3>טבלת ניתוח מלאה של 20 צורות הבוחן (חלק ב׳)</h3>
+          <div class="table-wrap" id="twentyWordsTableWrap"></div>
+        </article>
+      </div>
+
+      <!-- Topic 4: Phonology & Noun Patterns -->
+      <div class="topic-content" id="topic-phonology">
+        <div class="grid grid-2">
+          <article class="card reveal">
+            <div class="card-tag">שיעור ד׳ · מעבדה אינטראקטיבית</div>
+            <h3>מכונת המשקלים הסגוליים (<span class="en">qaṭl, qiṭl, quṭl</span>)</h3>
+            <p class="muted">בחרו שם סגולי וראו כיצד התנועה המקורית מתגלה מחדש ביידוע ובכינוי החבור.</p>
+            <div class="chip-group mt-16" id="segolateChips"></div>
+            <div class="segolate-stage mt-16" id="segolateStage"></div>
+          </article>
+
+          <!-- Visual Segolate Comparison Diagram -->
+          <article class="card card-pastel-cornflower reveal">
+            <div class="card-tag">דיאגרמת התפצלות</div>
+            <h3>סגוליים בעברית מול ארמית</h3>
+            <div class="vflow-tree mt-16">
+              <div class="vflow-root">צורה שמית קדומה: <span class="en">*kaspu → *kasp</span></div>
+              <div class="vflow-connector-down" aria-hidden="true">↓ פירוק צרור עיצורים</div>
+              <div class="vflow-split-2">
+                <div class="vsub-card">
+                  <span class="vsub-tag tag-dark">עברית (טעם מלעילי)</span>
+                  <p>1. תנועת עזר: <span class="en">*kásɛp</span></p>
+                  <p>2. הידמות תנועות: <span class="aramaic">כֶּסֶף</span></p>
+                  <p class="tiny-muted">הטעם נשאר בהברה הראשונה</p>
+                </div>
+                <div class="vsub-card">
+                  <span class="vsub-tag tag-purple">ארמית (טעם מלרעי)</span>
+                  <p>1. מעבר טעם לסוף: <span class="en">*kasáp</span></p>
+                  <p>2. חיטוף פרי-טוני: <span class="aramaic">כְּסַף</span></p>
+                  <p>3. ביידוע/כינוי חוזר הגזע: <span class="aramaic">כַּסְפָּא, כַּסְפִּי</span></p>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Comprehensive Patterns Table -->
+        <article class="card mt-24 reveal">
+          <div class="card-tag">טבלת משקלים מורכבים ודגמים מלעיליים</div>
+          <h3>מפת המשקלים בארמית מקראית ונטייתם</h3>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>קבוצת המשקל</th><th>מאפיין דקדוקי בנטייה</th><th>נפרד (יחיד)</th><th>מיודע / רבים / כינוי</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>סגוליים רגילים (<span class="en">qaṭl / qiṭl / quṭl</span>)</td>
+                  <td>בנפרד מלרע עם שווא/חטף; ביידוע ובכינוי מתגלה <span class="en">a / i / u</span>; ברבים בגדכפ״ת רפה</td>
+                  <td class="aramaic">כְּסַף, סְפַר, כְּתַל, תְּקֹף, טְפַר</td>
+                  <td class="aramaic">כַּסְפָּא, סִפְרֹוהִי, כֻּתְלְהֹון, תָּקְפָּא, טִפְרַיַּהּ</td>
+                </tr>
+                <tr>
+                  <td>סגוליים מלעיליים חריגים (על דרך העברית)</td>
+                  <td>מופיעים בנפרד במלעיל סגולי, אך בנטייה חוזרים לבסיס הקדום (וברבים כ/פ רפה!)</td>
+                  <td class="aramaic">מֶלֶךְ, אֶבֶן, אֶלֶף, חֵלֶם, צֶלֶם, טַעַם, קֶרֶן</td>
+                  <td class="aramaic">מַלְכָּא / מַלְכִין, אַבְנָא, אַלְפִין, חֶלְמָא, צַלְמָא, קַרְנָא</td>
+                </tr>
+                <tr>
+                  <td>משקל <span class="en">qāl</span> (דו-עיצוריים בתנועת <span class="en">ā</span>)</td>
+                  <td>אין מעתק כנעני (<span class="en">ā</span> לא הופכת ל־<span class="en">ō</span>); הקמץ קיים תמיד</td>
+                  <td class="aramaic">טָב, קָל, דָּר, אָת, שָׁק</td>
+                  <td class="aramaic">טָבָא / טָבִין / טָבְתָא, קָלָא, דָּרִין</td>
+                </tr>
+                <tr>
+                  <td>משקל <span class="en">qVṭāl</span></td>
+                  <td>חיטוף התנועה הראשונה + שימור הקמץ הארוך בהברה השנייה</td>
+                  <td class="aramaic">אֱלָהּ, אֱנָשׁ, שְׁלָם, לִשָּׁן, אֶדְרָע</td>
+                  <td class="aramaic">אֱלָהָא / אֱלָהִין, אֲנָשָׁא, לִשָּׁנַיָּא, דְּרָעֹוהִי</td>
+                </tr>
+                <tr>
+                  <td>משקל <span class="en">qāṭil</span> (בינוני פעיל ושמות מקצוע)</td>
+                  <td>קמץ קיים בראשונה; הצירי/פתח הקצר נחטף בהברה פתוחה בנטייה</td>
+                  <td class="aramaic">סָפַר (סופר), כָּתֵב, יָעֵט, כָּהֵן</td>
+                  <td class="aramaic">סָפְרָא / סָפְרַיָּא, כָּתְבִין, כָּהֲנַיָּא</td>
+                </tr>
+                <tr>
+                  <td>משקל <span class="en">quṭlān</span></td>
+                  <td>תנועת <span class="en">u/o</span> בראשונה וקמץ קיים בסיומת <span class="aramaic">-ָן</span></td>
+                  <td class="aramaic">שָׁלְטָן, דָּכְרָן, פּוּלְחָן</td>
+                  <td class="aramaic">שָׁלְטָנָא / שָׁלְטָנַיָּא, דָּכְרָנַיָּא</td>
+                </tr>
+                <tr>
+                  <td>סיומת הפשטה <span class="aramaic">-וּ</span> (נקבה)</td>
+                  <td>בנסמך ובמיודע תי״ו (<span class="aramaic">-וּת</span>); ברבות הוי״ו הופכת לעיצור (<span class="aramaic">-ְוָן</span>)</td>
+                  <td class="aramaic">מַלְכוּ, גָּלוּ, שָׂהֲדוּ</td>
+                  <td class="aramaic">מַלְכוּתָא / מַלְכְוָן / מַלְכְוָתָא, גָּלוּתָא / גָּלְוָן</td>
+                </tr>
+                <tr>
+                  <td>סיומת ייחוס <span class="aramaic">-ָי</span> (<span class="en">-āy</span>)</td>
+                  <td>שמות עמים ותארים; במיודע רבים סיומת <span class="aramaic">-ָיֵא / -ָאֵא</span></td>
+                  <td class="aramaic">כַּשְׂדָּי, קַדְמָי, יְהוּדָי</td>
+                  <td class="aramaic">כַּשְׂדָּיָא / כַּשְׂדָּאָה, כַּשְׂדָּיִין, כַּשְׂדָּיֵא, יְהוּדָיֵא</td>
+                </tr>
+                <tr>
+                  <td>הרחבת שורש (ה״א / ו״ו / הכפלה)</td>
+                  <td>שמות קצרים או מיוחדים מתרחבים ברבים</td>
+                  <td class="aramaic">שֻׁם, אַב, אַרְיֵה, רַב</td>
+                  <td class="aramaic">שְׁמָהָן, אֲבָהָן, אַרְיָוָן / אַרְיָוָתָא, רַבְרְבִין / רַבְרְבָן</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <!-- Consonant Shifts & Sound Phenomena Table -->
+        <article class="card mt-24 reveal">
+          <div class="card-tag">רקע פונולוגי · שיעור ב׳</div>
+          <h3>מעתקי העיצורים ותופעות הגה משלימות</h3>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>תופעה / מעתק</th><th>עברית</th><th>ארמית</th><th>דוגמאות מהקורס</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>מעתק ד׳אל (<span class="en">*ḏ</span>)</td><td>ז</td><td>ד</td><td class="aramaic">דְּהַב (זהב), דָּא (זו), דְּכַר (זכר), אֶדְרָע (זרוע), אֻדְנִין (אוזניים), מַדְבַּח (מזבח)</td></tr>
+                <tr><td>מעתק ת׳א (<span class="en">*ṯ</span>)</td><td>שׁ</td><td>ת</td><td class="aramaic">תְּלָת (שלוש), תְּרַע (שער), תּוֹר (שור), תְּלַג (שלג), יְתִב (ישב), תּוּב (שוב), עַתִּיר (עשיר)</td></tr>
+                <tr><td>מעתק ט׳א נחצי (<span class="en">*ṯ̣</span>)</td><td>צ</td><td>ט</td><td class="aramaic">טוּר (צור/הר), קַיִט (קיץ), עֵטָא (עצה), יָעֵט (יועץ), טְפַר (ציפורן), נְטַר (נצר)</td></tr>
+                <tr><td>מעתק ד׳אד נחצי (<span class="en">*ḍ</span>)</td><td>צ</td><td>ע</td><td class="aramaic">אֲרַע (ארץ), עֲמַר (צמר), עֲלַע (צלע), עָן (צאן), רְעוּ (רצון), אָע (*עע ← עץ, היבדלות!)</td></tr>
+                <tr><td>ה״א מרחיבת שורש ושיכול</td><td>רו״ץ / שער</td><td>רה״ט / תְּרַע</td><td class="aramaic">רְהַט (רץ), שְׁמָהָן (שמות), אֲבָהָן (אבות), תְּרַע (שיכול עיצורים מ־*תערא = שער)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+
+      <!-- Topic 5: Pronouns & Demonstratives -->
+      <div class="topic-content" id="topic-pronouns">
+        <div class="grid grid-2">
+          <article class="card reveal">
+            <div class="card-tag">שיעור ג׳</div>
+            <h3>טבלת כינויי הגוף הפרודים</h3>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr><th>גוף</th><th>צורה בארמית מקראית</th><th>הערות ומסורות</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>מדבר (אני)</td><td class="aramaic">אֲנָה</td><td>קדום מ״אני״</td></tr>
+                  <tr><td>נוכח (אתה)</td><td class="aramaic">אַנְתְּ</td><td>כתיב: <span class="aramaic">אנתה</span></td></tr>
+                  <tr><td>נוכחת (את)</td><td class="aramaic">*אַנְתִּי</td><td>לא מתועד במקרא (מתועד במכתבי יב ובקערות השבעה)</td></tr>
+                  <tr><td>נסתר / נסתרת</td><td class="aramaic">הוּא / הִיא</td><td>משמשים גם ככינויי רמז לרחוק</td></tr>
+                  <tr><td>מדברים (אנחנו)</td><td class="aramaic">אֲנַחְנָה, אֲנַחְנָא</td><td>טעם מלעילי</td></tr>
+                  <tr><td>נוכחים (אתם)</td><td class="aramaic">אַנְתּוּן</td><td>טעם מלרעי</td></tr>
+                  <tr><td>נוכחות (אתן)</td><td class="aramaic">*אַנְתִּין</td><td>לא מתועד במקרא</td></tr>
+                  <tr><td>נסתרים (הם)</td><td class="aramaic">אִנּוּן, הִמּוֹ, הִמּוֹן</td><td><span class="aramaic">הִמּוֹ</span> (ספר עזרא), <span class="aramaic">הִמּוֹן</span> (ספר דניאל)</td></tr>
+                  <tr><td>נסתרות (הן)</td><td class="aramaic">אִנִּין</td><td>כתיב: <span class="aramaic">אנון</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <div class="card-tag">שיעור ד׳</div>
+            <h3>טבלת כינויי הרמז (קרוב מול רחוק)</h3>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr><th>מין / מספר</th><th>לקרוב (סדר חופשי)</th><th>לרחוק (תמיד אחרי השם + כ׳)</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>זכר יחיד</td><td class="aramaic">דְּנָה <span class="muted">׳זה/הזה׳</span></td><td class="aramaic">דֵּךְ, דִכֵּן <span class="muted">׳ההוא׳</span></td></tr>
+                  <tr><td>נקבה יחידה</td><td class="aramaic">דָּא <span class="muted">׳זו/זאת׳</span></td><td class="aramaic">דָּךְ, דִכֵּן <span class="muted">׳ההיא׳</span></td></tr>
+                  <tr><td>רבים / רבות</td><td class="aramaic">אִלֵּין, אֵלֶּה, אֵל <span class="muted">׳אלה׳</span></td><td class="aramaic">אִלֵּךְ <span class="muted">׳ההם/ההן׳</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="note">שימו לב: בקרוב סדר המרכיבים חופשי (<span class="aramaic">דְּנָה חֶלְמָא</span> או <span class="aramaic">דָּנִיֵּאל דְּנָה</span>), ואילו ברחוק הכינוי בא אחרי השם המיודע (<span class="aramaic">צַלְמָא דִכֵּן, גֻּבְרַיָּא אִלֵּךְ</span>), או באמצעות <span class="aramaic">הוּא צַלְמָא</span>.</p>
+          </article>
+        </div>
+
+        <!-- Visual Spatial Diagram (Kutscher) -->
+        <article class="card mt-24 reveal">
+          <div class="card-tag">מודל המרחב של קוטשר · דיאגרמה תלת־אזורית</div>
+          <h3>שלוש מערכות הרמז בארמית הממלכתית והמקראית</h3>
+          <div class="spatial-zones mt-16">
+            <div class="zone-card box-lavender">
+              <span class="vsub-tag tag-purple">אזור 1 · תחום המדבר (קרוב)</span>
+              <h4>כאן אצלי</h4>
+              <p class="aramaic">דְּנָה · דָּא · אִלֵּין / אֵלֶּה</p>
+              <p class="tiny-muted">דיפטונג מקורי <span class="en">*illayn</span> שהתכווץ ל־<span class="aramaic">אִלֵּן</span> או התפרק</p>
+            </div>
+            <div class="zone-arrow" aria-hidden="true">←</div>
+            <div class="zone-card box-cornflower">
+              <span class="vsub-tag tag-dark">אזור 2 · תחום הנוכח (אמצעי ← רחוק במקרא)</span>
+              <h4>שם אצלך (כ׳ הנוכח!)</h4>
+              <p class="aramaic">דֵּךְ · דָּךְ · דִכֵּן · אִלֵּךְ</p>
+              <p class="tiny-muted">העיצור <strong>כ׳</strong> מסמן היסטורית את פניית הנוכח והפך במקרא לכינוי רחוק</p>
+            </div>
+            <div class="zone-arrow" aria-hidden="true">←</div>
+            <div class="zone-card box-eggshell">
+              <span class="vsub-tag tag-purple">אזור 3 · תחום הנסתר (רחוק מובהק)</span>
+              <h4>לא אצלי ולא אצלך</h4>
+              <p class="aramaic">הוּא · הִיא · אִנּוּן / הִמּוֹ</p>
+              <p class="tiny-muted">למשל: <span class="aramaic">הוּא צַלְמָא</span> (הצלם ההוא), <span class="aramaic">מַלְכַיָּא אִנּוּן</span> (המלכים ההם)</p>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Topic 6: Lexicon -->
+      <div class="topic-content" id="topic-lexicon">
+        <div class="card reveal">
+          <div class="card-header-row">
+            <div>
+              <div class="card-tag">אוצר מילים מלא (סיכומי השיעור + תקצירים + מייל המרצה)</div>
+              <h3>לקסיקון הקורס המורחב</h3>
+            </div>
+            <div class="lexicon-controls">
+              <input type="search" id="lexiconSearch" class="input-pill" dir="auto" placeholder="חיפוש מילה בארמית או פירוש..." />
+              <button class="btn btn-outline btn-sm" id="toggleMeaningBtn">הסתר פירושים</button>
+            </div>
+          </div>
+          <div class="chip-group mt-16" id="lexiconFilterChips"></div>
+          <div class="lexicon-grid mt-16" id="lexiconGrid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: PRACTICE (20+ PER CATEGORY, TYPED + MC, MEMORY & STATS) -->
+    <section id="tab-practice" class="tab-panel" role="tabpanel">
+      <div class="practice-top-bar">
+        <div class="topic-pills" id="practiceModeTabs">
+          <button class="pill-btn active" data-mode="noun-drill">נטיית השם · כתיבה (24)</button>
+          <button class="pill-btn" data-mode="suffix-drill">כינויים חבורים · זיהוי וכתיבה (20)</button>
+          <button class="pill-btn" data-mode="pattern-drill">משקלים ודגמים מלעיליים (20)</button>
+          <button class="pill-btn" data-mode="pronoun-drill">כינויי גוף, רמז ולקסיקון (20)</button>
+          <button class="pill-btn" data-mode="mistakes-only">חזרה על טעויות (<span id="mistakesCountBadge">0</span>)</button>
+          <button class="pill-btn" data-mode="flashcards">כרטיסיות 3D</button>
+        </div>
+
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <label class="switch-label" style="font-size:14px;">
+            <input type="checkbox" id="practiceStrictNiqqud" />
+            <span>בדיקת ניקוד מחמירה בתרגול</span>
+          </label>
+          <button class="btn btn-outline btn-sm" id="resetPracticeMemoryBtn">אפס סטטיסטיקה וטעויות</button>
+        </div>
+      </div>
+
+      <div class="card mt-16 reveal" id="practiceStage"></div>
+    </section>
+
+    <!-- TAB 3: 12 QUIZZES (3 PER LEVEL) -->
+    <section id="tab-quizzes" class="tab-panel" role="tabpanel">
+      <div class="dark-banner reveal">
+        <div>
+          <div class="kicker-light">סימולטור בוחן מלא · 3 גרסאות שונות לכל רמת קושי</div>
+          <h2>12 בחנים מדורגים מהקל אל הקשה</h2>
+          <p class="lead-light">
+            <strong>לכל רמת קושי 3 בחנים עם מילים שונות:</strong> בחנים א׳ מכסים את כל 20 הצורות ממייל המרצה, ובחנים ב׳ ו־ג׳ מתרגלים מילים חדשות באותה רמה מתוך טבלאות הדקדוק והמקרא.
+          </p>
+        </div>
+        <div class="niqqud-mode-box">
+          <label class="switch-label">
+            <input type="checkbox" id="strictNiqqudToggle" />
+            <span>בדיקה מחמירה עם ניקוד מלא</span>
+          </label>
+          <p class="tiny-note">כבוי = מתעלם מחסר בניקוד בתשובות. מופעל = דורש ניקוד מדויק בכל סדר הקלדה (היעזרו בסרגל הניקוד למטה).</p>
+        </div>
+      </div>
+
+      <div class="topic-pills mt-24" id="quizDifficultyTabs" role="tablist" aria-label="סינון בחנים לפי רמת קושי">
+        <button class="pill-btn active" data-tier="all">כל הבחנים (12)</button>
+        <button class="pill-btn" data-tier="easy">רמה 1 · קל (3)</button>
+        <button class="pill-btn" data-tier="medium">רמה 2 · בינוני (3)</button>
+        <button class="pill-btn" data-tier="challenging">רמה 3 · מאתגר (3)</button>
+        <button class="pill-btn" data-tier="hard">רמה 4 · קשה (3)</button>
+      </div>
+
+      <div class="quiz-selector-grid mt-16" id="quizSelectorGrid"></div>
+      <div class="card mt-24" id="activeQuizContainer" style="display:none;"></div>
+    </section>
+  </main>
+
+  <!-- Floating Niqqud Keyboard Helper -->
+  <div class="niqqud-bar" id="niqqudBar" aria-label="סרגל ניקוד מהיר" style="display:none;">
+    <span class="niqqud-title">ניקוד מהיר (מוסיף לשדה הפעיל):</span>
+    <div class="niqqud-keys" id="niqqudKeys"></div>
+    <button class="btn-close-niqqud" id="closeNiqqudBar" title="הסתר סרגל ניקוד">✕</button>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
